@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="whP-gf-Uak">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="wQg-tq-qST">
+            <objects>
+                <viewController id="whP-gf-Uak" customClass="DLCViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="uEw-UM-LJ8"/>
+                        <viewControllerLayoutGuide type="bottom" id="Mvr-aV-6Um"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="TpU-gO-2f1">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aCL-PI-79G" customClass="DLCBaseVideoView">
+                                <rect key="frame" x="0.0" y="20" width="375" height="250"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="250" id="hRj-IB-XAA"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jLe-G2-0ig">
+                                <rect key="frame" x="154.5" y="278" width="65" height="30"/>
+                                <state key="normal" title="Snapshot"/>
+                                <connections>
+                                    <action selector="videoSnapshotAction:" destination="whP-gf-Uak" eventType="touchUpInside" id="bmY-2N-jwo"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Oeg-W6-fyg">
+                                <rect key="frame" x="0.0" y="316" width="375" height="250"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="250" id="hga-f0-uB8"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="aCL-PI-79G" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leading" id="3vW-lV-m3z"/>
+                            <constraint firstItem="Oeg-W6-fyg" firstAttribute="top" secondItem="jLe-G2-0ig" secondAttribute="bottom" constant="8" id="Ial-3n-bxI"/>
+                            <constraint firstItem="jLe-G2-0ig" firstAttribute="centerX" secondItem="TpU-gO-2f1" secondAttribute="centerX" id="PBr-kg-kaE"/>
+                            <constraint firstAttribute="trailing" secondItem="Oeg-W6-fyg" secondAttribute="trailing" id="c5H-nH-U29"/>
+                            <constraint firstAttribute="trailing" secondItem="aCL-PI-79G" secondAttribute="trailing" id="dOP-hZ-2dq"/>
+                            <constraint firstItem="jLe-G2-0ig" firstAttribute="top" secondItem="aCL-PI-79G" secondAttribute="bottom" constant="8" id="hJ1-hD-0iZ"/>
+                            <constraint firstItem="Oeg-W6-fyg" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leading" id="mys-at-Xk9"/>
+                            <constraint firstItem="aCL-PI-79G" firstAttribute="top" secondItem="uEw-UM-LJ8" secondAttribute="bottom" id="qOU-6t-LV0"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="snapshotImageView" destination="Oeg-W6-fyg" id="dqC-47-Q7I"/>
+                        <outlet property="videoView" destination="aCL-PI-79G" id="MvZ-hR-zxw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tc2-Qw-aMS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-25" y="19"/>
+        </scene>
+    </scenes>
+</document>
