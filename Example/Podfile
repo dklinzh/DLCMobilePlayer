@@ -1,7 +1,7 @@
 use_frameworks!
 
 target 'DLCMobilePlayer_Example' do
-  #pod 'DLCMobilePlayer', :path => '../'
+  pod 'DLCMobilePlayer', :path => '../'
 
   target 'DLCMobilePlayer_Tests' do
     inherit! :search_paths

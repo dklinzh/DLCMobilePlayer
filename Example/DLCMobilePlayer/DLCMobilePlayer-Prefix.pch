@@ -14,5 +14,3 @@
     @import UIKit;
     @import Foundation;
 #endif
-
-#import <MobileVLCKit/MobileVLCKit.h>

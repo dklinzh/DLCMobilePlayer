@@ -7,7 +7,7 @@
 //
 
 #import "DLCViewController.h"
-#import "DLCBaseVideoView.h"
+#import <DLCmobilePlayer/DLCBaseVideoView.h>
 
 @interface DLCViewController ()
 @property (weak, nonatomic) IBOutlet DLCBaseVideoView *videoView;
@@ -22,8 +22,8 @@
 	// Do any additional setup after loading the view, typically from a nib.
     
     self.videoView.mediaURL =
-    
-    @"http://streams.videolan.org/streams/mp4/Mr_MrsSmith-h264_aac.mp4";
+    @"rtsp://admin:12345@bs.cqtianwang.com:554/_sdk_/hik/admin/12345/192.168.110.100/8000/14/sub";
+//    @"http://streams.videolan.org/streams/mp4/Mr_MrsSmith-h264_aac.mp4";
 }
 
 //- (BOOL)shouldAutorotate {

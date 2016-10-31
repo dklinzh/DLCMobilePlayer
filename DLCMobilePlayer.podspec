@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'DLCMobilePlayer'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of DLCMobilePlayer.'
+  s.summary          = 'A framework of video player for iOS devices that based on VLCKit.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,26 +18,27 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+                       A framework of video player for iOS devices that based on VLCKit.
                        DESC
 
-  s.homepage         = 'https://github.com/<GITHUB_USERNAME>/DLCMobilePlayer'
+  s.homepage         = 'https://github.com/dklinzh/DLCMobilePlayer'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Daniel' => 'linzhdk@gmail.com' }
-  s.source           = { :git => 'https://github.com/<GITHUB_USERNAME>/DLCMobilePlayer.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/dklinzh/DLCMobilePlayer.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '7.0'
-
+  s.private_header_files = 'DLCMobilePlayer/Classes/Aspects/**/*'
   s.source_files = 'DLCMobilePlayer/Classes/**/*'
-  
-  # s.resource_bundles = {
-  #   'DLCMobilePlayer' => ['DLCMobilePlayer/Assets/*.png']
-  # }
+  s.resources = 'DLCMobilePlayer/Assets/**/*'
+  s.resource_bundles = { 'DLCMobilePlayer' => ['DLCMobilePlayer/Assets/**/*'] }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'QuartzCore', 'CoreText', 'AVFoundation', 'Security', 'CFNetwork', 'AudioToolbox', 'OpenGLES', 'CoreGraphics', 'VideoToolbox', 'CoreMedia'
   s.libraries = 'c++', 'xml2', 'z', 'bz2', 'iconv'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.vendored_frameworks = "DLCMobilePlayer/Libs/*.framework"
+  s.xcconfig = { "ENABLE_BITCODE" => "NO" }
+  # s.dependency 'Aspects'
+  s.prefix_header_file = 'DLCMobilePlayer/Classes/DLCMobilePlayer-Prefix.pch'
 end

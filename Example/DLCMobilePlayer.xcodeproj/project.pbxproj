@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		007A8A076F64EB966FE6FA23 /* Pods_DLCMobilePlayer_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A283B7AB4011A40BB332DB57 /* Pods_DLCMobilePlayer_Tests.framework */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
-		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F598195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F596195388D20070C39A /* InfoPlist.strings */; };
 		6003F59A195388D20070C39A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F599195388D20070C39A /* main.m */; };
@@ -20,30 +20,9 @@
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
+		6C1A1B7A52106D16904E6033 /* Pods_DLCMobilePlayer_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 552D85D4510F8765F90F6433 /* Pods_DLCMobilePlayer_Example.framework */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
-		ADED3CFE15F8F31EBE802D75 /* Pods_DLCMobilePlayer_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 197BA5946191B1BC5C753EC8 /* Pods_DLCMobilePlayer_Tests.framework */; };
-		C290E2771DC63FE600488289 /* DLCBaseVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = C290E2711DC63FE600488289 /* DLCBaseVideoView.m */; };
-		C290E2781DC63FE600488289 /* UIDevice+DLCOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = C290E2731DC63FE600488289 /* UIDevice+DLCOrientation.m */; };
-		C290E2791DC63FE600488289 /* UIView+DLCAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = C290E2751DC63FE600488289 /* UIView+DLCAnimation.m */; };
-		C290E27F1DC6401200488289 /* DLCBaseVideoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C290E27C1DC6401200488289 /* DLCBaseVideoView.xib */; };
-		C290E2801DC6401200488289 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C290E27D1DC6401200488289 /* Images.xcassets */; };
-		C290E2831DC6405800488289 /* MobileVLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C290E2821DC6405800488289 /* MobileVLCKit.framework */; };
-		C290E2851DC6418800488289 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C290E2841DC6418800488289 /* libc++.tbd */; };
-		C290E2871DC641A300488289 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C290E2861DC641A300488289 /* libbz2.tbd */; };
-		C290E2891DC641AD00488289 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C290E2881DC641AD00488289 /* libz.tbd */; };
-		C290E28B1DC641BB00488289 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C290E28A1DC641BB00488289 /* libxml2.tbd */; };
-		C290E28D1DC641C600488289 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C290E28C1DC641C600488289 /* libiconv.tbd */; };
-		C290E28F1DC641D300488289 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C290E28E1DC641D300488289 /* VideoToolbox.framework */; };
-		C290E2911DC641DC00488289 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C290E2901DC641DC00488289 /* Security.framework */; };
-		C290E2931DC641E700488289 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C290E2921DC641E700488289 /* OpenGLES.framework */; };
-		C290E2951DC641F000488289 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C290E2941DC641F000488289 /* AVFoundation.framework */; };
-		C290E2971DC641FB00488289 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C290E2961DC641FB00488289 /* CoreMedia.framework */; };
-		C290E2991DC6420A00488289 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C290E2981DC6420A00488289 /* AudioToolbox.framework */; };
-		C290E29B1DC6421300488289 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C290E29A1DC6421300488289 /* CoreText.framework */; };
-		C290E29D1DC6421E00488289 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C290E29C1DC6421E00488289 /* CFNetwork.framework */; };
-		C290E29F1DC6422A00488289 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C290E29E1DC6422A00488289 /* QuartzCore.framework */; };
 		C290E2A11DC6427400488289 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C290E2A01DC6427400488289 /* Launch Screen.storyboard */; };
-		C61E6B38F783B5F332CBB0B0 /* Pods_DLCMobilePlayer_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CDD99EAEA020AF5C18E5CEF /* Pods_DLCMobilePlayer_Example.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,12 +38,10 @@
 /* Begin PBXFileReference section */
 		061F62D99D9E910EC8AE2026 /* DLCMobilePlayer.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = DLCMobilePlayer.podspec; path = ../DLCMobilePlayer.podspec; sourceTree = "<group>"; };
 		092D8B3A0C5152FA16CBEDFB /* Pods-DLCMobilePlayer_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DLCMobilePlayer_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DLCMobilePlayer_Tests/Pods-DLCMobilePlayer_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		0CDD99EAEA020AF5C18E5CEF /* Pods_DLCMobilePlayer_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DLCMobilePlayer_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		13E573B775C129D74145732A /* Pods-DLCMobilePlayer_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DLCMobilePlayer_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DLCMobilePlayer_Example/Pods-DLCMobilePlayer_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		197BA5946191B1BC5C753EC8 /* Pods_DLCMobilePlayer_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DLCMobilePlayer_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		552D85D4510F8765F90F6433 /* Pods_DLCMobilePlayer_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DLCMobilePlayer_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58A195388D20070C39A /* DLCMobilePlayer_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DLCMobilePlayer_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6003F595195388D20070C39A /* DLCMobilePlayer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DLCMobilePlayer-Info.plist"; sourceTree = "<group>"; };
 		6003F597195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -84,30 +61,8 @@
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		883A5E0FF7691C959D7E2C53 /* Pods-DLCMobilePlayer_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DLCMobilePlayer_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DLCMobilePlayer_Tests/Pods-DLCMobilePlayer_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		A1F5A9B06E8AF52E32E5C19E /* Pods-DLCMobilePlayer_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DLCMobilePlayer_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-DLCMobilePlayer_Example/Pods-DLCMobilePlayer_Example.release.xcconfig"; sourceTree = "<group>"; };
+		A283B7AB4011A40BB332DB57 /* Pods_DLCMobilePlayer_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DLCMobilePlayer_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5880D372C68CC2ABDE2846C /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		C290E2701DC63FE600488289 /* DLCBaseVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLCBaseVideoView.h; sourceTree = "<group>"; };
-		C290E2711DC63FE600488289 /* DLCBaseVideoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLCBaseVideoView.m; sourceTree = "<group>"; };
-		C290E2721DC63FE600488289 /* UIDevice+DLCOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+DLCOrientation.h"; sourceTree = "<group>"; };
-		C290E2731DC63FE600488289 /* UIDevice+DLCOrientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+DLCOrientation.m"; sourceTree = "<group>"; };
-		C290E2741DC63FE600488289 /* UIView+DLCAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+DLCAnimation.h"; sourceTree = "<group>"; };
-		C290E2751DC63FE600488289 /* UIView+DLCAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+DLCAnimation.m"; sourceTree = "<group>"; };
-		C290E27C1DC6401200488289 /* DLCBaseVideoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DLCBaseVideoView.xib; sourceTree = "<group>"; };
-		C290E27D1DC6401200488289 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		C290E2821DC6405800488289 /* MobileVLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MobileVLCKit.framework; sourceTree = "<group>"; };
-		C290E2841DC6418800488289 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		C290E2861DC641A300488289 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
-		C290E2881DC641AD00488289 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		C290E28A1DC641BB00488289 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
-		C290E28C1DC641C600488289 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
-		C290E28E1DC641D300488289 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
-		C290E2901DC641DC00488289 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		C290E2921DC641E700488289 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
-		C290E2941DC641F000488289 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		C290E2961DC641FB00488289 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		C290E2981DC6420A00488289 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		C290E29A1DC6421300488289 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
-		C290E29C1DC6421E00488289 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		C290E29E1DC6422A00488289 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		C290E2A01DC6427400488289 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		E4E5D21317761325BC1E7530 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -117,25 +72,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C290E29F1DC6422A00488289 /* QuartzCore.framework in Frameworks */,
-				C290E29D1DC6421E00488289 /* CFNetwork.framework in Frameworks */,
-				C290E29B1DC6421300488289 /* CoreText.framework in Frameworks */,
-				C290E2991DC6420A00488289 /* AudioToolbox.framework in Frameworks */,
-				C290E2971DC641FB00488289 /* CoreMedia.framework in Frameworks */,
-				C290E2951DC641F000488289 /* AVFoundation.framework in Frameworks */,
-				C290E2931DC641E700488289 /* OpenGLES.framework in Frameworks */,
-				C290E2911DC641DC00488289 /* Security.framework in Frameworks */,
-				C290E28F1DC641D300488289 /* VideoToolbox.framework in Frameworks */,
-				C290E28D1DC641C600488289 /* libiconv.tbd in Frameworks */,
-				C290E28B1DC641BB00488289 /* libxml2.tbd in Frameworks */,
-				C290E2891DC641AD00488289 /* libz.tbd in Frameworks */,
-				C290E2871DC641A300488289 /* libbz2.tbd in Frameworks */,
-				C290E2851DC6418800488289 /* libc++.tbd in Frameworks */,
-				C290E2831DC6405800488289 /* MobileVLCKit.framework in Frameworks */,
-				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
 				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
-				C61E6B38F783B5F332CBB0B0 /* Pods_DLCMobilePlayer_Example.framework in Frameworks */,
+				6C1A1B7A52106D16904E6033 /* Pods_DLCMobilePlayer_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,7 +85,7 @@
 				6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */,
 				6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */,
-				ADED3CFE15F8F31EBE802D75 /* Pods_DLCMobilePlayer_Tests.framework in Frameworks */,
+				007A8A076F64EB966FE6FA23 /* Pods_DLCMobilePlayer_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,27 +116,11 @@
 		6003F58C195388D20070C39A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C290E29E1DC6422A00488289 /* QuartzCore.framework */,
-				C290E29C1DC6421E00488289 /* CFNetwork.framework */,
-				C290E29A1DC6421300488289 /* CoreText.framework */,
-				C290E2981DC6420A00488289 /* AudioToolbox.framework */,
-				C290E2961DC641FB00488289 /* CoreMedia.framework */,
-				C290E2941DC641F000488289 /* AVFoundation.framework */,
-				C290E2921DC641E700488289 /* OpenGLES.framework */,
-				C290E2901DC641DC00488289 /* Security.framework */,
-				C290E28E1DC641D300488289 /* VideoToolbox.framework */,
-				6003F58F195388D20070C39A /* CoreGraphics.framework */,
-				C290E28C1DC641C600488289 /* libiconv.tbd */,
-				C290E28A1DC641BB00488289 /* libxml2.tbd */,
-				C290E2881DC641AD00488289 /* libz.tbd */,
-				C290E2861DC641A300488289 /* libbz2.tbd */,
-				C290E2841DC6418800488289 /* libc++.tbd */,
-				C290E2811DC6405800488289 /* Libs */,
 				6003F58D195388D20070C39A /* Foundation.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
 				6003F5AF195388D20070C39A /* XCTest.framework */,
-				0CDD99EAEA020AF5C18E5CEF /* Pods_DLCMobilePlayer_Example.framework */,
-				197BA5946191B1BC5C753EC8 /* Pods_DLCMobilePlayer_Tests.framework */,
+				552D85D4510F8765F90F6433 /* Pods_DLCMobilePlayer_Example.framework */,
+				A283B7AB4011A40BB332DB57 /* Pods_DLCMobilePlayer_Tests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -205,8 +128,6 @@
 		6003F593195388D20070C39A /* Example for DLCMobilePlayer */ = {
 			isa = PBXGroup;
 			children = (
-				C290E27A1DC6401200488289 /* Assets */,
-				C290E26E1DC63FE600488289 /* Classes */,
 				6003F59C195388D20070C39A /* DLCAppDelegate.h */,
 				6003F59D195388D20070C39A /* DLCAppDelegate.m */,
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
@@ -271,38 +192,6 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		C290E26E1DC63FE600488289 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				C290E2701DC63FE600488289 /* DLCBaseVideoView.h */,
-				C290E2711DC63FE600488289 /* DLCBaseVideoView.m */,
-				C290E2721DC63FE600488289 /* UIDevice+DLCOrientation.h */,
-				C290E2731DC63FE600488289 /* UIDevice+DLCOrientation.m */,
-				C290E2741DC63FE600488289 /* UIView+DLCAnimation.h */,
-				C290E2751DC63FE600488289 /* UIView+DLCAnimation.m */,
-			);
-			name = Classes;
-			path = ../../DLCMobilePlayer/Classes;
-			sourceTree = "<group>";
-		};
-		C290E27A1DC6401200488289 /* Assets */ = {
-			isa = PBXGroup;
-			children = (
-				C290E27C1DC6401200488289 /* DLCBaseVideoView.xib */,
-				C290E27D1DC6401200488289 /* Images.xcassets */,
-			);
-			name = Assets;
-			path = ../../DLCMobilePlayer/Assets;
-			sourceTree = "<group>";
-		};
-		C290E2811DC6405800488289 /* Libs */ = {
-			isa = PBXGroup;
-			children = (
-				C290E2821DC6405800488289 /* MobileVLCKit.framework */,
-			);
-			path = Libs;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -362,6 +251,7 @@
 						DevelopmentTeam = 6W6RQ3Z7YA;
 					};
 					6003F5AD195388D20070C39A = {
+						LastSwiftMigration = 0810;
 						TestTargetID = 6003F589195388D20070C39A;
 					};
 				};
@@ -391,9 +281,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
-				C290E27F1DC6401200488289 /* DLCBaseVideoView.xib in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
-				C290E2801DC6401200488289 /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 				C290E2A11DC6427400488289 /* Launch Screen.storyboard in Resources */,
 			);
@@ -522,9 +410,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F59E195388D20070C39A /* DLCAppDelegate.m in Sources */,
-				C290E2791DC63FE600488289 /* UIView+DLCAnimation.m in Sources */,
-				C290E2771DC63FE600488289 /* DLCBaseVideoView.m in Sources */,
-				C290E2781DC63FE600488289 /* UIDevice+DLCOrientation.m in Sources */,
 				6003F5A7195388D20070C39A /* DLCViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 			);
@@ -589,6 +474,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -634,6 +520,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -658,10 +545,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = 6W6RQ3Z7YA;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Libs",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DLCMobilePlayer/DLCMobilePlayer-Prefix.pch";
 				INFOPLIST_FILE = "DLCMobilePlayer/DLCMobilePlayer-Info.plist";
@@ -679,10 +563,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = 6W6RQ3Z7YA;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Libs",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DLCMobilePlayer/DLCMobilePlayer-Prefix.pch";
 				INFOPLIST_FILE = "DLCMobilePlayer/DLCMobilePlayer-Info.plist";
@@ -713,6 +594,7 @@
 				INFOPLIST_FILE = "Tests/Tests-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DLCMobilePlayer_Example.app/DLCMobilePlayer_Example";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -734,6 +616,7 @@
 				INFOPLIST_FILE = "Tests/Tests-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DLCMobilePlayer_Example.app/DLCMobilePlayer_Example";
 				WRAPPER_EXTENSION = xctest;
 			};

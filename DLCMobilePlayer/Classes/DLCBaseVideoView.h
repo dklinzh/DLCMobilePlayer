@@ -8,8 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^DLCVideoVisibleBlock)(BOOL visible);
+
 @interface DLCBaseVideoView : UIView
 @property (nonatomic, strong) NSString *mediaURL;
+@property (nonatomic, assign) BOOL isVisible;
+@property (nonatomic, copy) DLCVideoVisibleBlock videoVisibleBlock;
+
+- (void)playVideo;
+
+- (void)pauseVideo;
+
+- (void)stopVideo;
 
 - (UIImage *)takeVideoSnapshot;
 @end
