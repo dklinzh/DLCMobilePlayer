@@ -29,7 +29,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jLe-G2-0ig">
-                                <rect key="frame" x="154.5" y="278" width="65" height="30"/>
+                                <rect key="frame" x="155" y="278" width="65" height="30"/>
                                 <state key="normal" title="Snapshot"/>
                                 <connections>
                                     <action selector="videoSnapshotAction:" destination="whP-gf-Uak" eventType="touchUpInside" id="bmY-2N-jwo"/>

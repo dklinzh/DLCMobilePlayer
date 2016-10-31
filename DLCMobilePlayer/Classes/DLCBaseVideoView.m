@@ -21,7 +21,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *fullScreenBarButton;
 @property (weak, nonatomic) IBOutlet UIView *videoDrawableView;
 @property (weak, nonatomic) IBOutlet UIImageView *videoBufferingView;
-@property (weak, nonatomic) IBOutlet UIButton *visibleFullButton;
 
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) VLCMediaPlayer *mediaPlayer;
@@ -108,6 +107,21 @@ IB_DESIGNABLE
         [self enterFullScreen];
     } else { //Exit full screen mode
         [self exitFullScreen];
+    }
+    if (self.isPlaying) {
+        [self videoPalyed];
+    } else {
+        [self videoStoped];
+    }
+    if (self.isMuted) {
+        [self mutedOn];
+    } else {
+        [self mutedOff];
+    }
+    if (self.isVisible) {
+        [self videoVisible];
+    } else {
+        [self videoInvisible];
     }
 }
 
@@ -200,21 +214,9 @@ IB_DESIGNABLE
     self.contentView.frame = window.bounds;
     [window addSubview:self.contentView];
     
-    self.visibleBarButton.hidden = YES;
-    self.visibleFullButton.hidden = NO;
     [self.fullScreenBarButton setImage:DLCImageNamed(@"btn_full_exit") forState:UIControlStateNormal];
     [self.videoPlayButton setImage:DLCImageNamed(@"btn_full_play_def") forState:UIControlStateNormal];
     [self.videoPlayButton setImage:DLCImageNamed(@"btn_full_play_hl") forState:UIControlStateHighlighted];
-    if (self.isPlaying) {
-        [self videoPalyed];
-    } else {
-        [self videoStoped];
-    }
-    if (self.isMuted) {
-        [self mutedOn];
-    } else {
-        [self mutedOff];
-    }
 }
 
 - (void)exitFullScreen {
@@ -225,26 +227,14 @@ IB_DESIGNABLE
     self.contentView.frame = self.bounds;
     [self addSubview:self.contentView];
     
-    self.visibleBarButton.hidden = NO;
-    self.visibleFullButton.hidden = YES;
     [self.fullScreenBarButton setImage:DLCImageNamed(@"btn_toolbar_full_screen") forState:UIControlStateNormal];
     [self.videoPlayButton setImage:DLCImageNamed(@"btn_video_play_def") forState:UIControlStateNormal];
     [self.videoPlayButton setImage:DLCImageNamed(@"btn_video_play_hl") forState:UIControlStateHighlighted];
-    if (self.isPlaying) {
-        [self videoPalyed];
-    } else {
-        [self videoStoped];
-    }
-    if (self.isMuted) {
-        [self mutedOn];
-    } else {
-        [self mutedOff];
-    }
 }
 
 - (void)videoVisible {
     if (self.isFullScreen) {
-        [self.visibleFullButton setImage:DLCImageNamed(@"btn_full_visible") forState:UIControlStateNormal];
+        [self.visibleBarButton setImage:DLCImageNamed(@"btn_full_visible") forState:UIControlStateNormal];
     } else {
         [self.visibleBarButton setImage:DLCImageNamed(@"btn_toolbar_visible") forState:UIControlStateNormal];
     }
@@ -252,7 +242,7 @@ IB_DESIGNABLE
 
 - (void)videoInvisible {
     if (self.isFullScreen) {
-        [self.visibleFullButton setImage:DLCImageNamed(@"btn_full_invisible") forState:UIControlStateNormal];
+        [self.visibleBarButton setImage:DLCImageNamed(@"btn_full_invisible") forState:UIControlStateNormal];
     } else {
         [self.visibleBarButton setImage:DLCImageNamed(@"btn_toolbar_invisible") forState:UIControlStateNormal];
     }
