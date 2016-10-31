@@ -17,7 +17,7 @@ DLCMobilePlayer is available through [CocoaPods](http://cocoapods.org). To insta
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "DLCMobilePlayer"
+pod 'DLCMobilePlayer', :git => 'https://github.com/dklinzh/DLCMobilePlayer.git'
 ```
 
 ## Author
