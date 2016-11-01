@@ -35,3 +35,4 @@ Podfile.lock
 
 Ignore
 Libs
+MobileVLCKit.framework

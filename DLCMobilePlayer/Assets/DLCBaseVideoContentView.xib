@@ -109,7 +109,7 @@
                 <constraint firstItem="cEW-El-RbM" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="rnZ-GH-2GT"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-806" y="78"/>
+            <point key="canvasLocation" x="371" y="67"/>
         </view>
     </objects>
     <resources>

@@ -23,6 +23,7 @@
 		6C1A1B7A52106D16904E6033 /* Pods_DLCMobilePlayer_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 552D85D4510F8765F90F6433 /* Pods_DLCMobilePlayer_Example.framework */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		C290E2A11DC6427400488289 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C290E2A01DC6427400488289 /* Launch Screen.storyboard */; };
+		C2C813641DC870FD00FB31D3 /* DLCSubVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C813631DC870FD00FB31D3 /* DLCSubVideoView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,8 @@
 		A283B7AB4011A40BB332DB57 /* Pods_DLCMobilePlayer_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DLCMobilePlayer_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5880D372C68CC2ABDE2846C /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		C290E2A01DC6427400488289 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		C2C813621DC870FD00FB31D3 /* DLCSubVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLCSubVideoView.h; sourceTree = "<group>"; };
+		C2C813631DC870FD00FB31D3 /* DLCSubVideoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLCSubVideoView.m; sourceTree = "<group>"; };
 		E4E5D21317761325BC1E7530 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -136,6 +139,8 @@
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
 				C290E2A01DC6427400488289 /* Launch Screen.storyboard */,
+				C2C813621DC870FD00FB31D3 /* DLCSubVideoView.h */,
+				C2C813631DC870FD00FB31D3 /* DLCSubVideoView.m */,
 			);
 			name = "Example for DLCMobilePlayer";
 			path = DLCMobilePlayer;
@@ -412,6 +417,7 @@
 				6003F59E195388D20070C39A /* DLCAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* DLCViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				C2C813641DC870FD00FB31D3 /* DLCSubVideoView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

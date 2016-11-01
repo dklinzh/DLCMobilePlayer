@@ -12,27 +12,55 @@
 #import "UIDevice+DLCOrientation.h"
 #import "Aspects.h"
 
+static NSString *const kContentViewNibName = @"DLCBaseVideoContentView";
+
 @interface DLCBaseVideoView () <VLCMediaPlayerDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *videoPlayButton;
 @property (weak, nonatomic) IBOutlet UIView *toolbarView;
 @property (weak, nonatomic) IBOutlet UIButton *playBarButton;
 @property (weak, nonatomic) IBOutlet UIButton *voiceBarButton;
-@property (weak, nonatomic) IBOutlet UIButton *visibleBarButton;
+
 @property (weak, nonatomic) IBOutlet UIButton *fullScreenBarButton;
 @property (weak, nonatomic) IBOutlet UIView *videoDrawableView;
 @property (weak, nonatomic) IBOutlet UIImageView *videoBufferingView;
 
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) VLCMediaPlayer *mediaPlayer;
-@property (nonatomic, assign) BOOL isPlaying;
-@property (nonatomic, assign) BOOL isMuted;
-@property (nonatomic, assign) BOOL isBuffering;
-@property (nonatomic, assign) BOOL isFullScreen;
 @property (nonatomic, weak) id<AspectToken> aspectToken;
 @end
 
 IB_DESIGNABLE
 @implementation DLCBaseVideoView
+#pragma mark - Public
+- (void)playVideo {
+    if (!self.isPlaying) {
+        self.playing = YES;
+        if (self.mediaPlayer.isPlaying) {
+            [self.mediaPlayer pause];
+        }
+        [self.mediaPlayer play];
+    }
+}
+
+- (void)pauseVideo {
+    if (self.isPlaying) {
+        self.playing = NO;
+        [self.mediaPlayer pause];
+    }
+}
+
+- (void)stopVideo {
+    self.playing = NO;
+    [self.mediaPlayer stop];
+}
+
+- (UIImage *)takeVideoSnapshot {
+    NSString *path = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"snapshot_%f", [[NSDate date] timeIntervalSince1970]]];
+    [self.mediaPlayer saveVideoSnapshotAt:path withWidth:0 andHeight:0];
+    UIImage *image = [UIImage imageWithContentsOfFile:path];
+    return image;
+}
+
 #pragma mark - Override
 /*
 // Only override drawRect: if you perform custom drawing.
@@ -64,38 +92,26 @@ IB_DESIGNABLE
 
 #pragma mark - Event
 - (IBAction)videoPlayAction:(id)sender {
-    if ((self.isPlaying = !self.isPlaying)) {
+    if ((self.playing = !self.isPlaying)) {
         if (self.mediaPlayer.isPlaying) {
             [self.mediaPlayer pause];
         }
         [self.mediaPlayer play];
-        
-        [self videoPalyed];
     } else {
         [self.mediaPlayer pause];
-        
-        [self videoStoped];
     }
 }
 
 - (IBAction)videoVoiceAction:(UIButton *)sender {
-    if ((self.isMuted = !self.isMuted)) {
+    if ((self.muted = !self.isMuted)) {
         self.mediaPlayer.audio.muted = YES;
-        
-        [self mutedOn];
     } else {
         self.mediaPlayer.audio.muted = NO;
-        
-        [self mutedOff];
     }
 }
 
 - (IBAction)videoVisibleAction:(UIButton *)sender {
-    if ((self.isVisible = !self.isVisible)) {
-        [self videoVisible];
-    } else {
-        [self videoInvisible];
-    }
+    self.visible = !self.isVisible;
     
     if (self.videoVisibleBlock) {
         self.videoVisibleBlock(self.isVisible);
@@ -103,26 +119,7 @@ IB_DESIGNABLE
 }
 
 - (IBAction)videoFullScreenAction:(UIButton *)sender {
-    if ((self.isFullScreen = !self.isFullScreen)) { //Enter full screen mode
-        [self enterFullScreen];
-    } else { //Exit full screen mode
-        [self exitFullScreen];
-    }
-    if (self.isPlaying) {
-        [self videoPalyed];
-    } else {
-        [self videoStoped];
-    }
-    if (self.isMuted) {
-        [self mutedOn];
-    } else {
-        [self mutedOff];
-    }
-    if (self.isVisible) {
-        [self videoVisible];
-    } else {
-        [self videoInvisible];
-    }
+    self.fullScreen = !self.isFullScreen;
 }
 
 #pragma mark - VLCMediaPlayerDelegate
@@ -134,11 +131,10 @@ IB_DESIGNABLE
         case VLCMediaPlayerStateStopped:
         case VLCMediaPlayerStateEnded:
         case VLCMediaPlayerStatePaused:
-            self.isPlaying = NO;
-            [self videoStoped];
+            self.playing = NO;
             break;
         case VLCMediaPlayerStateBuffering:
-            [self startBuffering];
+            self.buffering = YES;
             break;
         default:
             break;
@@ -146,7 +142,7 @@ IB_DESIGNABLE
 }
 
 - (void)mediaPlayerTimeChanged:(NSNotification *)aNotification {
-    [self stopBuffering];
+    self.buffering = NO;
 }
 
 - (void)mediaPlayerTitleChanged:(NSNotification *)aNotification {
@@ -161,43 +157,18 @@ IB_DESIGNABLE
     
 }
 
-#pragma mark - Public
-- (void)playVideo {
-    if (!self.isPlaying) {
-        self.isPlaying = YES;
-        if (self.mediaPlayer.isPlaying) {
-            [self.mediaPlayer pause];
-        }
-        [self.mediaPlayer play];
-        
-        [self videoPalyed];
-    }
-}
-
-- (void)pauseVideo {
-    if (self.isPlaying) {
-        self.isPlaying = NO;
-        [self.mediaPlayer pause];
-        
-        [self videoStoped];
-    }
-}
-
-- (void)stopVideo {
-    self.isPlaying = NO;
-    [self.mediaPlayer stop];
-    
-    [self videoStoped];
-}
-
-- (UIImage *)takeVideoSnapshot {
-    NSString *path = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"snapshot_%f", [[NSDate date] timeIntervalSince1970]]];
-    [self.mediaPlayer saveVideoSnapshotAt:path withWidth:0 andHeight:0];
-    UIImage *image = [UIImage imageWithContentsOfFile:path];
-    return image;
-}
-
 #pragma mark - Private
+- (void)setupView {
+    NSBundle *bundle = [NSBundle bundleForClass:[DLCBaseVideoView class]];
+    self.contentView = [bundle loadNibNamed:kContentViewNibName owner:self options:nil].firstObject;
+    self.contentView.frame = self.bounds;
+    [self addSubview:self.contentView];
+    
+    //    [self.videoToolbar setBackgroundImage:[UIImage imageNamed:@"bg_toolbar"] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+    //    self.videoToolbar.clipsToBounds = YES;
+    //    self.toolbarView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_toolbar"]];
+}
+
 - (void)enterFullScreen {
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
 //    UIInterfaceOrientationMask defaultOrientationMask = [[UIApplication sharedApplication] supportedInterfaceOrientationsForWindow:window];
@@ -213,10 +184,6 @@ IB_DESIGNABLE
     [self.contentView removeFromSuperview];
     self.contentView.frame = window.bounds;
     [window addSubview:self.contentView];
-    
-    [self.fullScreenBarButton setImage:DLCImageNamed(@"btn_full_exit") forState:UIControlStateNormal];
-    [self.videoPlayButton setImage:DLCImageNamed(@"btn_full_play_def") forState:UIControlStateNormal];
-    [self.videoPlayButton setImage:DLCImageNamed(@"btn_full_play_hl") forState:UIControlStateHighlighted];
 }
 
 - (void)exitFullScreen {
@@ -226,10 +193,7 @@ IB_DESIGNABLE
     [self.contentView removeFromSuperview];
     self.contentView.frame = self.bounds;
     [self addSubview:self.contentView];
-    
-    [self.fullScreenBarButton setImage:DLCImageNamed(@"btn_toolbar_full_screen") forState:UIControlStateNormal];
-    [self.videoPlayButton setImage:DLCImageNamed(@"btn_video_play_def") forState:UIControlStateNormal];
-    [self.videoPlayButton setImage:DLCImageNamed(@"btn_video_play_hl") forState:UIControlStateHighlighted];
+    [self sendSubviewToBack:self.contentView];
 }
 
 - (void)videoVisible {
@@ -274,7 +238,7 @@ IB_DESIGNABLE
 }
 
 - (void)videoStoped {
-    [self stopBuffering];
+    self.buffering = NO;
     self.videoPlayButton.hidden = NO;
     if (self.isFullScreen) {
         [self.playBarButton setImage:DLCImageNamed(@"btn_full_play") forState:UIControlStateNormal];
@@ -284,30 +248,15 @@ IB_DESIGNABLE
 }
 
 - (void)startBuffering {
-    if (self.isPlaying && !self.isBuffering) {
-        self.isBuffering = YES;
+    if (self.isPlaying) {
         self.videoBufferingView.hidden = NO;
         [self.videoBufferingView dlc_startRotateAnimationInDuration:2 repeatCout:HUGE_VALF];
     }
 }
 
 - (void)stopBuffering {
-    if (self.isBuffering) {
-        self.isBuffering = NO;
-        [self.videoBufferingView dlc_stopRotateAnimation];
-        self.videoBufferingView.hidden = YES;
-    }
-}
-
-- (void)setupView {
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    self.contentView = [bundle loadNibNamed:NSStringFromClass([self class]) owner:self options:nil].firstObject;
-    self.contentView.frame = self.bounds;
-    [self addSubview:self.contentView];
-    
-//    [self.videoToolbar setBackgroundImage:[UIImage imageNamed:@"bg_toolbar"] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
-//    self.videoToolbar.clipsToBounds = YES;
-//    self.toolbarView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_toolbar"]];
+    [self.videoBufferingView dlc_stopRotateAnimation];
+    self.videoBufferingView.hidden = YES;
 }
 
 #pragma mark - G/S
@@ -322,7 +271,89 @@ IB_DESIGNABLE
 }
 
 - (void)setMediaURL:(NSString *)mediaURL {
-    _mediaURL = mediaURL;
-    self.mediaPlayer.media = [VLCMedia mediaWithURL:[NSURL URLWithString:mediaURL]];
+    if (mediaURL && ![mediaURL isEqualToString:_mediaURL]) {
+        [self stopVideo];
+        
+        _mediaURL = mediaURL;
+        self.mediaPlayer.media = [VLCMedia mediaWithURL:[NSURL URLWithString:mediaURL]];
+        
+        if (self.shouldAutoPlay) {
+            [self playVideo];
+        }
+    }
+}
+
+- (void)setPlaying:(BOOL)playing {
+    if (_playing != playing) {
+        _playing = playing;
+        if (_playing) {
+            [self videoPalyed];
+        } else {
+            [self videoStoped];
+        }
+    }
+}
+
+- (void)setMuted:(BOOL)muted {
+    if (_muted != muted) {
+        _muted = muted;
+        if (_muted) {
+            [self mutedOn];
+        } else {
+            [self mutedOff];
+        }
+    }
+}
+
+- (void)setBuffering:(BOOL)buffering {
+    if (_buffering != buffering) {
+        _buffering = buffering;
+        if (_buffering) {
+            [self startBuffering];
+        } else {
+            [self stopBuffering];
+        }
+    }
+}
+
+- (void)setFullScreen:(BOOL)fullScreen {
+    if (_fullScreen != fullScreen) {
+        _fullScreen = fullScreen;
+        if (_fullScreen) {
+            [self enterFullScreen];
+            [self.fullScreenBarButton setImage:DLCImageNamed(@"btn_full_exit") forState:UIControlStateNormal];
+            [self.videoPlayButton setImage:DLCImageNamed(@"btn_full_play_def") forState:UIControlStateNormal];
+            [self.videoPlayButton setImage:DLCImageNamed(@"btn_full_play_hl") forState:UIControlStateHighlighted];
+        } else {
+            [self exitFullScreen];
+            [self.fullScreenBarButton setImage:DLCImageNamed(@"btn_toolbar_full_screen") forState:UIControlStateNormal];
+            [self.videoPlayButton setImage:DLCImageNamed(@"btn_video_play_def") forState:UIControlStateNormal];
+            [self.videoPlayButton setImage:DLCImageNamed(@"btn_video_play_hl") forState:UIControlStateHighlighted];
+        }
+        if (self.isPlaying) {
+            [self videoPalyed];
+        } else {
+            [self videoStoped];
+        }
+        if (self.isMuted) {
+            [self mutedOn];
+        } else {
+            [self mutedOff];
+        }
+        if (self.isVisible) {
+            [self videoVisible];
+        } else {
+            [self videoInvisible];
+        }
+    }
+}
+
+- (void)setVisible:(BOOL)visible {
+    _visible = visible;
+    if (_visible) {
+        [self videoVisible];
+    } else {
+        [self videoInvisible];
+    }
 }
 @end
