@@ -34,5 +34,4 @@ Pods/
 Podfile.lock
 
 Ignore
-Libs
-MobileVLCKit.framework
+MobileVLCKit.framework*
