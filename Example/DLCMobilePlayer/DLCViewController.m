@@ -24,6 +24,7 @@
     self.videoView.mediaURL =
     @"rtsp://admin:12345@bs.cqtianwang.com:554/_sdk_/hik/admin/12345/192.168.110.100/8000/14/sub";
 //    @"http://streams.videolan.org/streams/mp4/Mr_MrsSmith-h264_aac.mp4";
+    self.videoView.shouldAutoPlay = YES;
 }
 
 //- (BOOL)shouldAutorotate {

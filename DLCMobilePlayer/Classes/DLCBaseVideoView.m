@@ -27,6 +27,7 @@ static NSString *const kContentViewNibName = @"DLCBaseVideoContentView";
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) VLCMediaPlayer *mediaPlayer;
 @property (nonatomic, weak) id<AspectToken> aspectToken;
+@property (nonatomic, weak) id<DLCVideoActionDelegate> videoActionDelegate;
 @end
 
 IB_DESIGNABLE
@@ -34,6 +35,10 @@ IB_DESIGNABLE
 #pragma mark - Public
 - (void)playVideo {
     if (!self.isPlaying) {
+        if (!self.mediaURL) {
+            NSLog(@"DLCMobilePlayer -Error: mediaURL is null.");
+            return;
+        }
         self.playing = YES;
         if (self.mediaPlayer.isPlaying) {
             [self.mediaPlayer pause];
@@ -74,6 +79,8 @@ IB_DESIGNABLE
     self = [super initWithFrame:frame];
     if (self) {
         [self setupView];
+        
+        self.videoActionDelegate = self;
     }
     return self;
 }
@@ -82,23 +89,30 @@ IB_DESIGNABLE
     self = [super initWithCoder:coder];
     if (self) {
         [self setupView];
+        
+        self.videoActionDelegate = self;
     }
     return self;
 }
 
-//- (void)layoutSubviews {
-//    [super layoutSubviews];
-//}
+- (void)didMoveToWindow {
+    [super didMoveToWindow];
+    if (self.shouldAutoPlay) {
+        if ([self.videoActionDelegate respondsToSelector:@selector(dlc_videoWillPlay)]) {
+            [self.videoActionDelegate dlc_videoWillPlay];
+        }
+    }
+}
 
 #pragma mark - Event
 - (IBAction)videoPlayAction:(id)sender {
-    if ((self.playing = !self.isPlaying)) {
-        if (self.mediaPlayer.isPlaying) {
-            [self.mediaPlayer pause];
-        }
-        [self.mediaPlayer play];
-    } else {
+    if (self.playing) {
+        self.playing = NO;
         [self.mediaPlayer pause];
+    } else {
+        if ([self.videoActionDelegate respondsToSelector:@selector(dlc_videoWillPlay)]) {
+            [self.videoActionDelegate dlc_videoWillPlay];
+        }
     }
 }
 
@@ -120,6 +134,11 @@ IB_DESIGNABLE
 
 - (IBAction)videoFullScreenAction:(UIButton *)sender {
     self.fullScreen = !self.isFullScreen;
+}
+
+#pragma mark - DLCVideoActionDelegate
+- (void)dlc_videoWillPlay {
+    [self playVideo];
 }
 
 #pragma mark - VLCMediaPlayerDelegate
@@ -167,6 +186,7 @@ IB_DESIGNABLE
     //    [self.videoToolbar setBackgroundImage:[UIImage imageNamed:@"bg_toolbar"] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
     //    self.videoToolbar.clipsToBounds = YES;
     //    self.toolbarView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_toolbar"]];
+    
 }
 
 - (void)enterFullScreen {
@@ -277,7 +297,7 @@ IB_DESIGNABLE
         _mediaURL = mediaURL;
         self.mediaPlayer.media = [VLCMedia mediaWithURL:[NSURL URLWithString:mediaURL]];
         
-        if (self.shouldAutoPlay) {
+        if (self.shouldAutoPlay && self.window) {
             [self playVideo];
         }
     }

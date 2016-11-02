@@ -8,17 +8,23 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol DLCVideoActionDelegate <NSObject>
+
+- (void)dlc_videoWillPlay;
+
+@end
+
 typedef void(^DLCVideoVisibleBlock)(BOOL visible);
 
-@interface DLCBaseVideoView : UIView
+@interface DLCBaseVideoView : UIView <DLCVideoActionDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *visibleBarButton;
 
 @property (nonatomic, strong) NSString *mediaURL;
 @property (nonatomic, assign) BOOL shouldAutoPlay;
-@property (nonatomic, assign, getter=isPlaying) BOOL playing;
-@property (nonatomic, assign, getter=isMuted) BOOL muted;
-@property (nonatomic, assign, getter=isBuffering) BOOL buffering;
-@property (nonatomic, assign, getter=isFullScreen) BOOL fullScreen;
+@property (nonatomic, assign, readonly, getter=isPlaying) BOOL playing;
+@property (nonatomic, assign, readonly, getter=isMuted) BOOL muted;
+@property (nonatomic, assign, readonly, getter=isBuffering) BOOL buffering;
+@property (nonatomic, assign, readonly, getter=isFullScreen) BOOL fullScreen;
 @property (nonatomic, assign, getter=isVisible) BOOL visible;
 @property (nonatomic, copy) DLCVideoVisibleBlock videoVisibleBlock;
 
