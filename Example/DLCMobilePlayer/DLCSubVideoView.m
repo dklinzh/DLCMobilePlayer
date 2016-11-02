@@ -8,7 +8,6 @@
 
 #import "DLCSubVideoView.h"
 
-IB_DESIGNABLE
 @implementation DLCSubVideoView
 
 /*

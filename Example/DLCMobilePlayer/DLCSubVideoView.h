@@ -6,8 +6,8 @@
 //  Copyright © 2016 Daniel. All rights reserved.
 //
 
-#import <DLCMobilePlayer/DLCBaseVideoView.h>
+#import <DLCMobilePlayer/DLCLiveVideoView.h>
 
-@interface DLCSubVideoView : DLCBaseVideoView
+@interface DLCSubVideoView : DLCLiveVideoView
 @property (nonatomic, strong) UILabel *titleLabel;
 @end

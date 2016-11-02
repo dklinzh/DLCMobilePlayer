@@ -39,6 +39,6 @@ Pod::Spec.new do |s|
   s.libraries = 'c++', 'xml2', 'z', 'bz2', 'iconv'
   s.vendored_frameworks = "DLCMobilePlayer/Libs/*.framework"
   s.xcconfig = { "ENABLE_BITCODE" => "NO" }
-  # s.dependency 'Aspects'
   s.prefix_header_file = 'DLCMobilePlayer/Classes/DLCMobilePlayer-Prefix.pch'
+  s.dependency 'Reachability'
 end

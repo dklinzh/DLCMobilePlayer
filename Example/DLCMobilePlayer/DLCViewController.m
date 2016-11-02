@@ -7,10 +7,10 @@
 //
 
 #import "DLCViewController.h"
-#import <DLCmobilePlayer/DLCBaseVideoView.h>
+#import "DLCSubVideoView.h"
 
 @interface DLCViewController ()
-@property (weak, nonatomic) IBOutlet DLCBaseVideoView *videoView;
+@property (weak, nonatomic) IBOutlet DLCSubVideoView *videoView;
 @property (weak, nonatomic) IBOutlet UIImageView *snapshotImageView;
 @end
 
@@ -24,7 +24,9 @@
     self.videoView.mediaURL =
     @"rtsp://admin:12345@bs.cqtianwang.com:554/_sdk_/hik/admin/12345/192.168.110.100/8000/14/sub";
 //    @"http://streams.videolan.org/streams/mp4/Mr_MrsSmith-h264_aac.mp4";
-    self.videoView.shouldAutoPlay = YES;
+    
+//    self.videoView.shouldAutoPlay = YES;
+//    self.videoView.allowPlayingViaWWAN = YES;
 }
 
 //- (BOOL)shouldAutorotate {

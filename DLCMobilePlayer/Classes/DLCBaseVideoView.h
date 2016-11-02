@@ -11,11 +11,13 @@
 @protocol DLCVideoActionDelegate <NSObject>
 
 - (void)dlc_videoWillPlay;
+- (void)dlc_videoWillStop;
 
 @end
 
 typedef void(^DLCVideoVisibleBlock)(BOOL visible);
 
+IB_DESIGNABLE
 @interface DLCBaseVideoView : UIView <DLCVideoActionDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *visibleBarButton;
 

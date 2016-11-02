@@ -30,7 +30,6 @@ static NSString *const kContentViewNibName = @"DLCBaseVideoContentView";
 @property (nonatomic, weak) id<DLCVideoActionDelegate> videoActionDelegate;
 @end
 
-IB_DESIGNABLE
 @implementation DLCBaseVideoView
 #pragma mark - Public
 - (void)playVideo {
@@ -104,6 +103,11 @@ IB_DESIGNABLE
     }
 }
 
+- (void)dealloc {
+    [self stopVideo];
+    self.mediaPlayer = nil;
+}
+
 #pragma mark - Event
 - (IBAction)videoPlayAction:(id)sender {
     if (self.playing) {
@@ -141,6 +145,10 @@ IB_DESIGNABLE
     [self playVideo];
 }
 
+- (void)dlc_videoWillStop {
+    [self stopVideo];
+}
+
 #pragma mark - VLCMediaPlayerDelegate
 - (void)mediaPlayerStateChanged:(NSNotification *)aNotification {
     NSLog(@"mediaPlayerStateChanged: %ld", (long)self.mediaPlayer.state);
@@ -149,6 +157,9 @@ IB_DESIGNABLE
         case VLCMediaPlayerStateError:
         case VLCMediaPlayerStateStopped:
         case VLCMediaPlayerStateEnded:
+            if ([self.videoActionDelegate respondsToSelector:@selector(dlc_videoWillStop)]) {
+                [self.videoActionDelegate dlc_videoWillStop];
+            }
         case VLCMediaPlayerStatePaused:
             self.playing = NO;
             break;
@@ -292,7 +303,9 @@ IB_DESIGNABLE
 
 - (void)setMediaURL:(NSString *)mediaURL {
     if (mediaURL && ![mediaURL isEqualToString:_mediaURL]) {
-        [self stopVideo];
+        if ([self.videoActionDelegate respondsToSelector:@selector(dlc_videoWillStop)]) {
+            [self.videoActionDelegate dlc_videoWillStop];
+        }
         
         _mediaURL = mediaURL;
         self.mediaPlayer.media = [VLCMedia mediaWithURL:[NSURL URLWithString:mediaURL]];
