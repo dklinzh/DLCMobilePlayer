@@ -17,12 +17,12 @@
 
 typedef void(^DLCVideoVisibleBlock)(BOOL visible);
 
-IB_DESIGNABLE
 @interface DLCBaseVideoView : UIView <DLCVideoActionDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *visibleBarButton;
 
 @property (nonatomic, strong) NSString *mediaURL;
-@property (nonatomic, assign) BOOL shouldAutoPlay;
+@property (nonatomic, assign) IBInspectable BOOL shouldAutoPlay;
+@property (nonatomic, assign) IBInspectable BOOL shouldPauseInBackground;
 @property (nonatomic, assign, readonly, getter=isPlaying) BOOL playing;
 @property (nonatomic, assign, readonly, getter=isMuted) BOOL muted;
 @property (nonatomic, assign, readonly, getter=isBuffering) BOOL buffering;

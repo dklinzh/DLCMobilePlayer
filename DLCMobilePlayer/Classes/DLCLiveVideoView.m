@@ -13,6 +13,7 @@
 
 @end
 
+IB_DESIGNABLE
 @implementation DLCLiveVideoView
 #pragma mark - Public
 - (void)playLiveVideo {

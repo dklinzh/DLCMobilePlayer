@@ -13,6 +13,7 @@
 #import "Aspects.h"
 
 static NSString *const kContentViewNibName = @"DLCBaseVideoContentView";
+static BOOL const kDefaultShouldPauseInBackground = YES;
 
 @interface DLCBaseVideoView () <VLCMediaPlayerDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *videoPlayButton;
@@ -28,34 +29,32 @@ static NSString *const kContentViewNibName = @"DLCBaseVideoContentView";
 @property (nonatomic, strong) VLCMediaPlayer *mediaPlayer;
 @property (nonatomic, weak) id<AspectToken> aspectToken;
 @property (nonatomic, weak) id<DLCVideoActionDelegate> videoActionDelegate;
+@property (nonatomic, assign) BOOL shouldResumeInActive;
 @end
 
+IB_DESIGNABLE
 @implementation DLCBaseVideoView
 #pragma mark - Public
 - (void)playVideo {
     if (!self.isPlaying) {
-        if (!self.mediaURL) {
-            NSLog(@"DLCMobilePlayer -Error: mediaURL is null.");
-            return;
-        }
-        self.playing = YES;
-        if (self.mediaPlayer.isPlaying) {
-            [self.mediaPlayer pause];
-        }
-        [self.mediaPlayer play];
+        [self play];
+        
+        [self addObserverForPauseInBackground];
     }
 }
 
 - (void)pauseVideo {
     if (self.isPlaying) {
-        self.playing = NO;
-        [self.mediaPlayer pause];
+        [self pause];
+        
+        [self removeObserverForPauseInBackground];
     }
 }
 
 - (void)stopVideo {
-    self.playing = NO;
-    [self.mediaPlayer stop];
+    [self stop];
+    
+    [self removeObserverForPauseInBackground];
 }
 
 - (UIImage *)takeVideoSnapshot {
@@ -77,9 +76,7 @@ static NSString *const kContentViewNibName = @"DLCBaseVideoContentView";
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setupView];
-        
-        self.videoActionDelegate = self;
+        [self setup];
     }
     return self;
 }
@@ -87,9 +84,7 @@ static NSString *const kContentViewNibName = @"DLCBaseVideoContentView";
 - (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
     if (self) {
-        [self setupView];
-        
-        self.videoActionDelegate = self;
+        [self setup];
     }
     return self;
 }
@@ -106,13 +101,15 @@ static NSString *const kContentViewNibName = @"DLCBaseVideoContentView";
 - (void)dealloc {
     [self stopVideo];
     self.mediaPlayer = nil;
+    self.shouldPauseInBackground = NO;
 }
+
+
 
 #pragma mark - Event
 - (IBAction)videoPlayAction:(id)sender {
     if (self.playing) {
-        self.playing = NO;
-        [self.mediaPlayer pause];
+        [self pauseVideo];
     } else {
         if ([self.videoActionDelegate respondsToSelector:@selector(dlc_videoWillPlay)]) {
             [self.videoActionDelegate dlc_videoWillPlay];
@@ -188,6 +185,13 @@ static NSString *const kContentViewNibName = @"DLCBaseVideoContentView";
 }
 
 #pragma mark - Private
+- (void)setup {
+    [self setupView];
+    
+    self.videoActionDelegate = self;
+    self.shouldPauseInBackground = kDefaultShouldPauseInBackground;
+}
+
 - (void)setupView {
     NSBundle *bundle = [NSBundle bundleForClass:[DLCBaseVideoView class]];
     self.contentView = [bundle loadNibNamed:kContentViewNibName owner:self options:nil].firstObject;
@@ -198,6 +202,63 @@ static NSString *const kContentViewNibName = @"DLCBaseVideoContentView";
     //    self.videoToolbar.clipsToBounds = YES;
     //    self.toolbarView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_toolbar"]];
     
+}
+
+- (void)addObserverForPauseInBackground {
+    if (self.shouldPauseInBackground) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(resumeInActive)
+                                                     name:UIApplicationDidBecomeActiveNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(pauseInBackground)
+                                                     name:UIApplicationDidEnterBackgroundNotification object:nil];
+    }
+}
+
+- (void)removeObserverForPauseInBackground {
+    self.shouldResumeInActive = NO;
+    if (self.shouldPauseInBackground) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                        name:UIApplicationDidBecomeActiveNotification object:nil];
+        [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                        name:UIApplicationDidEnterBackgroundNotification object:nil];
+    }
+}
+
+- (void)pauseInBackground {
+    if (self.isPlaying) {
+        self.shouldResumeInActive = YES;
+        [self pause];
+    }
+}
+
+- (void)resumeInActive {
+    if (self.shouldResumeInActive) {
+        self.shouldResumeInActive = NO;
+        [self play];
+    }
+}
+
+- (void)play {
+    if (!self.mediaURL) {
+        NSLog(@"DLCMobilePlayer -Error: mediaURL is null.");
+        return;
+    }
+    self.playing = YES;
+    if (self.mediaPlayer.isPlaying) {
+        [self.mediaPlayer pause];
+    }
+    [self.mediaPlayer play];
+}
+
+- (void)pause {
+    self.playing = NO;
+    [self.mediaPlayer pause];
+}
+
+- (void)stop {
+    self.playing = NO;
+    [self.mediaPlayer stop];
 }
 
 - (void)enterFullScreen {
@@ -387,6 +448,18 @@ static NSString *const kContentViewNibName = @"DLCBaseVideoContentView";
         [self videoVisible];
     } else {
         [self videoInvisible];
+    }
+}
+
+- (void)setShouldPauseInBackground:(BOOL)shouldPauseInBackground {
+    if (_shouldPauseInBackground != shouldPauseInBackground) {
+        _shouldPauseInBackground = shouldPauseInBackground;
+        if (!_shouldPauseInBackground) {
+            [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                            name:UIApplicationDidBecomeActiveNotification object:nil];
+            [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                            name:UIApplicationDidEnterBackgroundNotification object:nil];
+        }
     }
 }
 @end
