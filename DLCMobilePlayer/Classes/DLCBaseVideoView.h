@@ -10,15 +10,13 @@
 
 @protocol DLCVideoActionDelegate <NSObject>
 
+@optional
 - (void)dlc_videoWillPlay;
 - (void)dlc_videoWillStop;
-
+- (void)dlc_videoFullScreenChanged:(BOOL)isFullScreen;
 @end
 
-typedef void(^DLCVideoVisibleBlock)(BOOL visible);
-
 @interface DLCBaseVideoView : UIView <DLCVideoActionDelegate>
-@property (weak, nonatomic) IBOutlet UIButton *visibleBarButton;
 
 @property (nonatomic, strong) NSString *mediaURL;
 @property (nonatomic, assign) IBInspectable BOOL shouldAutoPlay;
@@ -27,8 +25,7 @@ typedef void(^DLCVideoVisibleBlock)(BOOL visible);
 @property (nonatomic, assign, readonly, getter=isMuted) BOOL muted;
 @property (nonatomic, assign, readonly, getter=isBuffering) BOOL buffering;
 @property (nonatomic, assign, readonly, getter=isFullScreen) BOOL fullScreen;
-@property (nonatomic, assign, getter=isVisible) BOOL visible;
-@property (nonatomic, copy) DLCVideoVisibleBlock videoVisibleBlock;
+@property (nonatomic, strong) NSArray<UIButton *> *otherToolBarButtons;
 
 - (void)playVideo;
 

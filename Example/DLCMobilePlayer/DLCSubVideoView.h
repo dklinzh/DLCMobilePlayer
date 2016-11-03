@@ -10,4 +10,6 @@
 
 @interface DLCSubVideoView : DLCLiveVideoView
 @property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UIButton *visibleBarButton;
+@property (nonatomic, assign, getter=isVisible) BOOL visible;
 @end

@@ -30,6 +30,7 @@ static BOOL const kDefaultShouldPauseInBackground = YES;
 @property (nonatomic, weak) id<AspectToken> aspectToken;
 @property (nonatomic, weak) id<DLCVideoActionDelegate> videoActionDelegate;
 @property (nonatomic, assign) BOOL shouldResumeInActive;
+@property (nonatomic, assign, getter=isVideoPlayed) BOOL videoPlayed;
 @end
 
 IB_DESIGNABLE
@@ -58,6 +59,9 @@ IB_DESIGNABLE
 }
 
 - (UIImage *)takeVideoSnapshot {
+    if (!self.isVideoPlayed) {
+        return nil;
+    }
     NSString *path = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"snapshot_%f", [[NSDate date] timeIntervalSince1970]]];
     [self.mediaPlayer saveVideoSnapshotAt:path withWidth:0 andHeight:0];
     UIImage *image = [UIImage imageWithContentsOfFile:path];
@@ -125,16 +129,10 @@ IB_DESIGNABLE
     }
 }
 
-- (IBAction)videoVisibleAction:(UIButton *)sender {
-    self.visible = !self.isVisible;
-    
-    if (self.videoVisibleBlock) {
-        self.videoVisibleBlock(self.isVisible);
-    }
-}
-
 - (IBAction)videoFullScreenAction:(UIButton *)sender {
-    self.fullScreen = !self.isFullScreen;
+    if ([self.videoActionDelegate respondsToSelector:@selector(dlc_videoFullScreenChanged:)]) {
+        [self.videoActionDelegate dlc_videoFullScreenChanged:!self.isFullScreen];
+    }
 }
 
 #pragma mark - DLCVideoActionDelegate
@@ -144,6 +142,10 @@ IB_DESIGNABLE
 
 - (void)dlc_videoWillStop {
     [self stopVideo];
+}
+
+- (void)dlc_videoFullScreenChanged:(BOOL)isFullScreen {
+    self.fullScreen = isFullScreen;
 }
 
 #pragma mark - VLCMediaPlayerDelegate
@@ -170,6 +172,7 @@ IB_DESIGNABLE
 
 - (void)mediaPlayerTimeChanged:(NSNotification *)aNotification {
     self.buffering = NO;
+    self.videoPlayed = YES;
 }
 
 - (void)mediaPlayerTitleChanged:(NSNotification *)aNotification {
@@ -201,7 +204,6 @@ IB_DESIGNABLE
     //    [self.videoToolbar setBackgroundImage:[UIImage imageNamed:@"bg_toolbar"] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
     //    self.videoToolbar.clipsToBounds = YES;
     //    self.toolbarView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_toolbar"]];
-    
 }
 
 - (void)addObserverForPauseInBackground {
@@ -259,6 +261,7 @@ IB_DESIGNABLE
 - (void)stop {
     self.playing = NO;
     [self.mediaPlayer stop];
+    self.videoPlayed = NO;
 }
 
 - (void)enterFullScreen {
@@ -286,22 +289,6 @@ IB_DESIGNABLE
     self.contentView.frame = self.bounds;
     [self addSubview:self.contentView];
     [self sendSubviewToBack:self.contentView];
-}
-
-- (void)videoVisible {
-    if (self.isFullScreen) {
-        [self.visibleBarButton setImage:DLCImageNamed(@"btn_full_visible") forState:UIControlStateNormal];
-    } else {
-        [self.visibleBarButton setImage:DLCImageNamed(@"btn_toolbar_visible") forState:UIControlStateNormal];
-    }
-}
-
-- (void)videoInvisible {
-    if (self.isFullScreen) {
-        [self.visibleBarButton setImage:DLCImageNamed(@"btn_full_invisible") forState:UIControlStateNormal];
-    } else {
-        [self.visibleBarButton setImage:DLCImageNamed(@"btn_toolbar_invisible") forState:UIControlStateNormal];
-    }
 }
 
 - (void)mutedOn {
@@ -434,20 +421,6 @@ IB_DESIGNABLE
         } else {
             [self mutedOff];
         }
-        if (self.isVisible) {
-            [self videoVisible];
-        } else {
-            [self videoInvisible];
-        }
-    }
-}
-
-- (void)setVisible:(BOOL)visible {
-    _visible = visible;
-    if (_visible) {
-        [self videoVisible];
-    } else {
-        [self videoInvisible];
     }
 }
 
@@ -459,6 +432,29 @@ IB_DESIGNABLE
                                                             name:UIApplicationDidBecomeActiveNotification object:nil];
             [[NSNotificationCenter defaultCenter] removeObserver:self
                                                             name:UIApplicationDidEnterBackgroundNotification object:nil];
+        }
+    }
+}
+
+- (void)setOtherToolBarButtons:(NSArray<UIButton *> *)otherToolBarButtons {
+    _otherToolBarButtons = otherToolBarButtons;
+    if (_otherToolBarButtons) {
+        NSUInteger count = _otherToolBarButtons.count;
+        if (count > 0) {
+            int margin = 18;
+            NSDictionary *metrics = @{ @"margin": @(margin) };
+            NSMutableString *Hvfl = [NSMutableString stringWithString:@"H:[btn_base]"];
+            NSMutableDictionary *views = [NSMutableDictionary dictionaryWithDictionary:@{ @"btn_base": self.voiceBarButton }];
+            for (int i = 0; i < count; i++) {
+                UIButton *btn = _otherToolBarButtons[i];
+                btn.translatesAutoresizingMaskIntoConstraints = NO;
+                [self.toolbarView addSubview:btn];
+                
+                [Hvfl appendFormat:@"-margin-[btn_%d]", i];
+                [views setValue:btn forKey:[NSString stringWithFormat:@"btn_%d", i]];
+            }
+            NSArray *Hconstraints = [NSLayoutConstraint constraintsWithVisualFormat:Hvfl options:NSLayoutFormatAlignAllCenterY metrics:metrics views:views];
+            [self.toolbarView addConstraints:Hconstraints];
         }
     }
 }

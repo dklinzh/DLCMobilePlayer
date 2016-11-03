@@ -17,7 +17,6 @@
                 <outlet property="videoBufferingView" destination="cEW-El-RbM" id="pns-dB-sPA"/>
                 <outlet property="videoDrawableView" destination="PFs-rx-pXk" id="Ovl-eC-Jry"/>
                 <outlet property="videoPlayButton" destination="VNg-2s-ULe" id="HhY-g5-n7q"/>
-                <outlet property="visibleBarButton" destination="3qn-bi-G5t" id="xfr-0o-dQg"/>
                 <outlet property="voiceBarButton" destination="t2m-dF-ndS" id="omg-ar-SoZ"/>
             </connections>
         </placeholder>
@@ -61,13 +60,6 @@
                                 <action selector="videoVoiceAction:" destination="-1" eventType="touchUpInside" id="1Zv-cf-8m9"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3qn-bi-G5t">
-                            <rect key="frame" x="86" y="11" width="16" height="22"/>
-                            <state key="normal" image="btn_toolbar_visible"/>
-                            <connections>
-                                <action selector="videoVisibleAction:" destination="-1" eventType="touchUpInside" id="HSV-z3-nPX"/>
-                            </connections>
-                        </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FuZ-1E-Dgh">
                             <rect key="frame" x="341" y="11" width="16" height="22"/>
                             <state key="normal" image="btn_toolbar_full_screen"/>
@@ -86,10 +78,8 @@
                         <constraint firstAttribute="trailing" secondItem="FuZ-1E-Dgh" secondAttribute="trailing" constant="18" id="RU8-iE-cYL"/>
                         <constraint firstItem="2CO-RI-u0J" firstAttribute="top" secondItem="erX-QE-C0q" secondAttribute="top" id="V5U-l3-7XA"/>
                         <constraint firstItem="EY8-Pr-DW8" firstAttribute="centerY" secondItem="erX-QE-C0q" secondAttribute="centerY" id="YIN-5F-M7W"/>
-                        <constraint firstItem="3qn-bi-G5t" firstAttribute="leading" secondItem="t2m-dF-ndS" secondAttribute="trailing" constant="18" id="eOv-7b-Og7"/>
                         <constraint firstItem="t2m-dF-ndS" firstAttribute="leading" secondItem="EY8-Pr-DW8" secondAttribute="trailing" constant="18" id="eSn-UH-6RS"/>
                         <constraint firstAttribute="height" constant="44" id="grB-bE-XW4"/>
-                        <constraint firstItem="3qn-bi-G5t" firstAttribute="centerY" secondItem="erX-QE-C0q" secondAttribute="centerY" id="vB7-zs-yUK"/>
                         <constraint firstItem="t2m-dF-ndS" firstAttribute="centerY" secondItem="erX-QE-C0q" secondAttribute="centerY" id="zIe-nZ-c6Z"/>
                     </constraints>
                 </view>
@@ -116,7 +106,6 @@
         <image name="bg_toolbar" width="4" height="36"/>
         <image name="btn_toolbar_full_screen" width="16" height="16"/>
         <image name="btn_toolbar_play" width="16" height="16"/>
-        <image name="btn_toolbar_visible" width="16" height="16"/>
         <image name="btn_toolbar_voice" width="16" height="16"/>
         <image name="btn_video_play_def" width="52" height="52"/>
         <image name="btn_video_play_hl" width="52" height="52"/>
