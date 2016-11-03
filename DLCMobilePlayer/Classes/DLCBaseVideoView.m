@@ -271,7 +271,7 @@ IB_DESIGNABLE
     self.aspectToken = [delegateClass aspect_hookSelector:@selector(application:supportedInterfaceOrientationsForWindow:) withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo, UIApplication *application, UIWindow *window) {
         NSInvocation *invocation = aspectInfo.originalInvocation;
         [invocation invoke];
-        UIInterfaceOrientationMask orientationMask = UIInterfaceOrientationMaskLandscapeRight;
+        UIInterfaceOrientationMask orientationMask = UIInterfaceOrientationMaskLandscape;
         [invocation setReturnValue:&orientationMask];
     } error:nil];
     
