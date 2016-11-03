@@ -9,9 +9,7 @@
 #import "DLCLiveVideoView.h"
 #import "DLCNetworkCenter.h"
 
-@interface DLCLiveVideoView () <UIAlertViewDelegate>
-
-@end
+static NSInteger const kNetworkErrorAlertTag = -1010101;
 
 IB_DESIGNABLE
 @implementation DLCLiveVideoView
@@ -32,6 +30,7 @@ IB_DESIGNABLE
                 [self playVideo];
             } else {
                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"当前网络视频将使用移动数据流量，是否继续？" delegate:self cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
+                alertView.tag = kNetworkErrorAlertTag;
                 [alertView show];
             }
             break;
@@ -65,7 +64,7 @@ IB_DESIGNABLE
 
 #pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1) {
+    if (alertView.tag == kNetworkErrorAlertTag && buttonIndex == 1) {
         self.allowPlayingViaWWAN = YES;
         [self playLiveVideo];
     }

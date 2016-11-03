@@ -8,7 +8,7 @@
 
 #import "DLCBaseVideoView.h"
 
-@interface DLCLiveVideoView : DLCBaseVideoView
+@interface DLCLiveVideoView : DLCBaseVideoView <UIAlertViewDelegate>
 @property (nonatomic, assign) BOOL allowPlayingViaWWAN;
 
 - (void)playLiveVideo;
