@@ -16,8 +16,6 @@ static NSString *const kContentViewNibName = @"DLCBaseVideoContentView";
 static BOOL const kDefaultShouldPauseInBackground = YES;
 
 @interface DLCBaseVideoView () <VLCMediaPlayerDelegate>
-@property (weak, nonatomic) IBOutlet UIButton *videoPlayButton;
-@property (weak, nonatomic) IBOutlet UIView *toolbarView;
 @property (weak, nonatomic) IBOutlet UIButton *playBarButton;
 @property (weak, nonatomic) IBOutlet UIButton *voiceBarButton;
 

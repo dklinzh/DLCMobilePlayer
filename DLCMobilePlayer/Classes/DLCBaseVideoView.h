@@ -17,7 +17,9 @@
 @end
 
 @interface DLCBaseVideoView : UIView <DLCVideoActionDelegate>
-@property (weak, nonatomic) IBOutlet UILabel *hintLabel;
+@property (weak, nonatomic, readonly) IBOutlet UIButton *videoPlayButton;
+@property (weak, nonatomic, readonly) IBOutlet UIView *toolbarView;
+@property (weak, nonatomic, readonly) IBOutlet UILabel *hintLabel;
 
 @property (nonatomic, strong) NSString *mediaURL;
 @property (nonatomic, assign) IBInspectable BOOL shouldAutoPlay;

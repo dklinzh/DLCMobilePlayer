@@ -38,6 +38,7 @@ IB_DESIGNABLE
             }
             break;
         case DLCReachableViaWiFi:
+            [self hideHintNetworkError];
             [self playVideo];
             break;
     }
