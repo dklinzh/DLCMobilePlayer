@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DLCBaseVideoView">
             <connections>
                 <outlet property="fullScreenBarButton" destination="FuZ-1E-Dgh" id="zYi-W8-eX5"/>
+                <outlet property="hintLabel" destination="6It-PX-eI8" id="ALC-40-CSZ"/>
                 <outlet property="playBarButton" destination="EY8-Pr-DW8" id="Ysn-Vi-QM7"/>
                 <outlet property="toolbarView" destination="erX-QE-C0q" id="ZLi-gE-bYO"/>
                 <outlet property="videoBufferingView" destination="cEW-El-RbM" id="pns-dB-sPA"/>
@@ -40,6 +41,12 @@
                         <action selector="videoPlayAction:" destination="-1" eventType="touchUpInside" id="wBg-cW-wKD"/>
                     </connections>
                 </button>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="无法加载视频" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6It-PX-eI8">
+                    <rect key="frame" x="151" y="166" width="74" height="14.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="erX-QE-C0q">
                     <rect key="frame" x="0.0" y="216" width="375" height="44"/>
                     <subviews>
@@ -86,6 +93,7 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="6It-PX-eI8" firstAttribute="centerX" secondItem="VNg-2s-ULe" secondAttribute="centerX" id="HeH-Kj-SOV"/>
                 <constraint firstItem="erX-QE-C0q" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="LgG-nr-LE6"/>
                 <constraint firstItem="VNg-2s-ULe" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="MHt-WT-ckZ"/>
                 <constraint firstItem="PFs-rx-pXk" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Rcn-Pd-kmo"/>
@@ -94,6 +102,7 @@
                 <constraint firstItem="cEW-El-RbM" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="dlj-ou-EfF"/>
                 <constraint firstAttribute="trailing" secondItem="PFs-rx-pXk" secondAttribute="trailing" id="dqy-xc-9H6"/>
                 <constraint firstAttribute="trailing" secondItem="erX-QE-C0q" secondAttribute="trailing" id="fHN-5u-Shh"/>
+                <constraint firstItem="6It-PX-eI8" firstAttribute="top" secondItem="VNg-2s-ULe" secondAttribute="bottom" constant="10" id="gK4-yN-wik"/>
                 <constraint firstAttribute="bottom" secondItem="PFs-rx-pXk" secondAttribute="bottom" id="lhs-aK-Jp0"/>
                 <constraint firstItem="VNg-2s-ULe" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="mCb-lY-Sx6"/>
                 <constraint firstItem="cEW-El-RbM" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="rnZ-GH-2GT"/>

@@ -13,19 +13,22 @@ static NSInteger const kNetworkErrorAlertTag = -1010101;
 
 IB_DESIGNABLE
 @implementation DLCLiveVideoView
+@synthesize hintText = _hintText;
+
 #pragma mark - Public
 - (void)playLiveVideo {
     [[DLCNetworkCenter sharedInstance] startReachNotifierOnReachable:^(DLCNetworkStatus status) {
-        
+        [self hideHintNetworkError];
     } onUnreachable:^(DLCNetworkStatus status) {
-        [self showAlertWithNetworkUnreachable];
+        [self showHintNetworkError];
     }];
     
     switch ([DLCNetworkCenter sharedInstance].currentNetworkStatus) {
         case DLCNotReachable:
-            [self showAlertWithNetworkUnreachable];
+            [self showHintNetworkError];
             break;
         case DLCReachableViaWWAN:
+            [self hideHintNetworkError];
             if (self.allowPlayingViaWWAN) {
                 [self playVideo];
             } else {
@@ -71,8 +74,25 @@ IB_DESIGNABLE
 }
 
 #pragma mark - Private
+- (void)showHintNetworkError {
+    self.hintLabel.text = self.hintText;
+    self.hintLabel.hidden = NO;
+}
+
+- (void)hideHintNetworkError {
+    self.hintLabel.text = nil;
+    self.hintLabel.hidden = YES;
+}
+
 - (void)showAlertWithNetworkUnreachable {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"当前网络不可用。" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
     [alertView show];
+}
+
+- (NSString *)hintText {
+    if (_hintText) {
+        return _hintText;
+    }
+    return @"无法加载视频，请检查设备或网络后重试。";
 }
 @end

@@ -17,10 +17,13 @@
 @end
 
 @interface DLCBaseVideoView : UIView <DLCVideoActionDelegate>
+@property (weak, nonatomic) IBOutlet UILabel *hintLabel;
 
 @property (nonatomic, strong) NSString *mediaURL;
 @property (nonatomic, assign) IBInspectable BOOL shouldAutoPlay;
 @property (nonatomic, assign) IBInspectable BOOL shouldPauseInBackground;
+@property (nonatomic, strong) IBInspectable NSString *hintText;
+
 @property (nonatomic, assign, readonly, getter=isPlaying) BOOL playing;
 @property (nonatomic, assign, readonly, getter=isMuted) BOOL muted;
 @property (nonatomic, assign, readonly, getter=isBuffering) BOOL buffering;

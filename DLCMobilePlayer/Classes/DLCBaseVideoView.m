@@ -35,6 +35,7 @@ static BOOL const kDefaultShouldPauseInBackground = YES;
 
 IB_DESIGNABLE
 @implementation DLCBaseVideoView
+
 #pragma mark - Public
 - (void)playVideo {
     if (!self.isPlaying) {
@@ -104,7 +105,6 @@ IB_DESIGNABLE
 
 - (void)dealloc {
     [self stopVideo];
-    self.mediaPlayer = nil;
     self.shouldPauseInBackground = NO;
 }
 
@@ -458,4 +458,11 @@ IB_DESIGNABLE
         }
     }
 }
+
+#pragma mark - IBInspectable
+- (void)setHintText:(NSString *)hintText {
+    _hintText = hintText;
+    self.hintLabel.text = _hintText;
+}
+
 @end
