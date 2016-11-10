@@ -102,7 +102,7 @@ IB_DESIGNABLE
 }
 
 - (void)dealloc {
-    [self stopVideo];
+//    [self stopVideo];
     self.shouldPauseInBackground = NO;
 }
 
@@ -348,16 +348,28 @@ IB_DESIGNABLE
 }
 
 - (void)setMediaURL:(NSString *)mediaURL {
-    if (mediaURL && ![mediaURL isEqualToString:_mediaURL]) {
+    if (mediaURL) {
+        if (![mediaURL isEqualToString:_mediaURL]) {
+            _mediaURL = mediaURL;
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                self.mediaPlayer.media = [VLCMedia mediaWithURL:[NSURL URLWithString:mediaURL]];
+            });
+            
+            if ([self.videoActionDelegate respondsToSelector:@selector(dlc_videoWillStop)]) {
+                [self.videoActionDelegate dlc_videoWillStop];
+            }
+            
+            if (self.shouldAutoPlay && self.window) {
+                if ([self.videoActionDelegate respondsToSelector:@selector(dlc_videoWillPlay)]) {
+                    [self.videoActionDelegate dlc_videoWillPlay];
+                }
+            }
+        }
+    } else {
+        _mediaURL = mediaURL;
         if ([self.videoActionDelegate respondsToSelector:@selector(dlc_videoWillStop)]) {
             [self.videoActionDelegate dlc_videoWillStop];
-        }
-        
-        _mediaURL = mediaURL;
-        self.mediaPlayer.media = [VLCMedia mediaWithURL:[NSURL URLWithString:mediaURL]];
-        
-        if (self.shouldAutoPlay && self.window) {
-            [self playVideo];
         }
     }
 }
