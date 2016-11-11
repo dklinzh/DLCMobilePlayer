@@ -3,7 +3,7 @@
 //  DLCMobilePlayer
 //
 //  Created by Linzh on 10/31/16.
-//
+//  Copyright © 2016 Daniel. All rights reserved.
 //
 
 #ifndef DLCMobilePlayer_Prefix_pch
@@ -12,8 +12,6 @@
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 
-#endif /* DLCMobilePlayer_Prefix_pch */
-
 #define DLCImageNamed(name) [UIImage imageNamed:name inBundle:[NSBundle bundleForClass:[DLCBaseVideoView class]] compatibleWithTraitCollection:nil]
 
 #ifdef DEBUG
@@ -21,3 +19,5 @@
 #else
 #define NSLog(...)
 #endif
+
+#endif /* DLCMobilePlayer_Prefix_pch */

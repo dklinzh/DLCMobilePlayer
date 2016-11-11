@@ -28,7 +28,7 @@ static BOOL const kDefaultShouldPauseInBackground = YES;
 @property (nonatomic, weak) id<AspectToken> aspectToken;
 @property (nonatomic, weak) id<DLCVideoActionDelegate> videoActionDelegate;
 @property (nonatomic, assign) BOOL shouldResumeInActive;
-@property (nonatomic, assign, getter=isVideoPlayed) BOOL videoPlayed;
+@property (nonatomic, assign) BOOL videoPlayed;
 @end
 
 IB_DESIGNABLE
@@ -55,16 +55,6 @@ IB_DESIGNABLE
     [self stop];
     
     [self removeObserverForPauseInBackground];
-}
-
-- (UIImage *)takeVideoSnapshot {
-    if (!self.isVideoPlayed) {
-        return nil;
-    }
-    NSString *path = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"snapshot_%f", [[NSDate date] timeIntervalSince1970]]];
-    [self.mediaPlayer saveVideoSnapshotAt:path withWidth:0 andHeight:0];
-    UIImage *image = [UIImage imageWithContentsOfFile:path];
-    return image;
 }
 
 #pragma mark - Override

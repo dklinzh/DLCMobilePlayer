@@ -22,20 +22,14 @@
 	// Do any additional setup after loading the view, typically from a nib.
     
     self.videoView.mediaURL =
-    @"rtsp://admin:12345@bs.cqtianwang.com:554/_sdk_/hik/admin/12345/192.168.110.100/8000/14/sub";
-//    @"http://streams.videolan.org/streams/mp4/Mr_MrsSmith-h264_aac.mp4";
+    @"rtsp://218.204.223.237:554/live/1/66251FC11353191F/e7ooqwcfbqjoo80j.sdp";
+//    @"rtmp://live.hkstv.hk.lxdns.com/live/hks";
+//    @"http://ivi.bupt.edu.cn/hls/cctv5phd.m3u8";
+//    @"http://devimages.apple.com.edgekey.net/streaming/examples/bipbop_4x3/gear2/prog_index.m3u8";
     
 //    self.videoView.shouldAutoPlay = YES;
 //    self.videoView.allowPlayingViaWWAN = YES;
 }
-
-//- (BOOL)shouldAutorotate {
-//    return NO;
-//}
-
-//- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-//    return UIInterfaceOrientationMaskPortrait;
-//}
 
 - (void)didReceiveMemoryWarning
 {
@@ -45,6 +39,9 @@
 
 #pragma mark - Event
 - (IBAction)videoSnapshotAction:(UIButton *)sender {
-    self.snapshotImageView.image = [self.videoView takeVideoSnapshot];
+    NSString *key = [NSString stringWithFormat:@"%ld", (NSInteger)([[NSDate date] timeIntervalSince1970]*1000)];
+    
+    self.snapshotImageView.image = [self.videoView takeVideoSnapshotImageForKey:key];
+    NSLog(@"video snapshot path: %@", [self.videoView videoSnapshotPathForKey:key]);
 }
 @end

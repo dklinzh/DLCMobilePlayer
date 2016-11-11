@@ -27,6 +27,7 @@
 @property (nonatomic, strong) IBInspectable NSString *hintText;
 
 @property (nonatomic, assign, readonly, getter=isPlaying) BOOL playing;
+@property (nonatomic, assign, readonly, getter=isVideoPlayed) BOOL videoPlayed;
 @property (nonatomic, assign, readonly, getter=isMuted) BOOL muted;
 @property (nonatomic, assign, readonly, getter=isBuffering) BOOL buffering;
 @property (nonatomic, assign, readonly, getter=isFullScreen) BOOL fullScreen;
@@ -38,5 +39,4 @@
 
 - (void)stopVideo;
 
-- (UIImage *)takeVideoSnapshot;
 @end

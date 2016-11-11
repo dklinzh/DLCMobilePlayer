@@ -6,7 +6,7 @@
 //  Copyright © 2016 Daniel. All rights reserved.
 //
 
-#import "DLCBaseVideoView.h"
+#import <DLCMobilePlayer/DLCBaseVideoView.h>
 
 @interface DLCLiveVideoView : DLCBaseVideoView <UIAlertViewDelegate>
 @property (nonatomic, assign) BOOL allowPlayingViaWWAN;

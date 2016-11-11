@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DLCMobilePlayer'
-  s.version          = '0.2.4'
+  s.version          = '0.2.5'
   s.summary          = 'A framework of video player for iOS devices that based on VLCKit.'
 
 # This description is used to generate tags and improve search results.
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-                       A framework of video player for iOS devices that based on VLCKit.
+                       A framework of video player for iOS devices that based on VLCKit(https://github.com/dklinzh/VLCKit). Supported protocols include http, rtsp, rtmp etc.
                        DESC
 
   s.homepage         = 'https://github.com/dklinzh/DLCMobilePlayer'
