@@ -29,7 +29,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jLe-G2-0ig">
-                                <rect key="frame" x="155" y="278" width="65" height="30"/>
+                                <rect key="frame" x="20" y="278" width="65" height="30"/>
                                 <state key="normal" title="Snapshot"/>
                                 <connections>
                                     <action selector="videoSnapshotAction:" destination="whP-gf-Uak" eventType="touchUpInside" id="bmY-2N-jwo"/>
@@ -42,12 +42,21 @@
                                     <constraint firstAttribute="height" constant="250" id="hga-f0-uB8"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iUt-KV-v3g">
+                                <rect key="frame" x="105" y="278" width="32" height="30"/>
+                                <state key="normal" title="Next"/>
+                                <connections>
+                                    <action selector="nextMediaAction:" destination="whP-gf-Uak" eventType="touchUpInside" id="L0i-hA-rzz"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="aCL-PI-79G" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leading" id="3vW-lV-m3z"/>
+                            <constraint firstItem="iUt-KV-v3g" firstAttribute="centerY" secondItem="jLe-G2-0ig" secondAttribute="centerY" id="644-86-0mX"/>
                             <constraint firstItem="Oeg-W6-fyg" firstAttribute="top" secondItem="jLe-G2-0ig" secondAttribute="bottom" constant="8" id="Ial-3n-bxI"/>
-                            <constraint firstItem="jLe-G2-0ig" firstAttribute="centerX" secondItem="TpU-gO-2f1" secondAttribute="centerX" id="PBr-kg-kaE"/>
+                            <constraint firstItem="iUt-KV-v3g" firstAttribute="leading" secondItem="jLe-G2-0ig" secondAttribute="trailing" constant="20" id="Nna-Z1-2fw"/>
+                            <constraint firstItem="jLe-G2-0ig" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leading" constant="20" id="RSE-Zh-I55"/>
                             <constraint firstAttribute="trailing" secondItem="Oeg-W6-fyg" secondAttribute="trailing" id="c5H-nH-U29"/>
                             <constraint firstAttribute="trailing" secondItem="aCL-PI-79G" secondAttribute="trailing" id="dOP-hZ-2dq"/>
                             <constraint firstItem="jLe-G2-0ig" firstAttribute="top" secondItem="aCL-PI-79G" secondAttribute="bottom" constant="8" id="hJ1-hD-0iZ"/>

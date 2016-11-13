@@ -29,6 +29,7 @@ static BOOL const kDefaultShouldPauseInBackground = YES;
 @property (nonatomic, weak) id<DLCVideoActionDelegate> videoActionDelegate;
 @property (nonatomic, assign) BOOL shouldResumeInActive;
 @property (nonatomic, assign) BOOL videoPlayed;
+@property (nonatomic, strong) dispatch_queue_t playerControlQueue;
 @end
 
 IB_DESIGNABLE
@@ -95,8 +96,6 @@ IB_DESIGNABLE
 //    [self stopVideo];
     self.shouldPauseInBackground = NO;
 }
-
-
 
 #pragma mark - Event
 - (IBAction)videoPlayAction:(id)sender {
@@ -181,6 +180,7 @@ IB_DESIGNABLE
     
     self.videoActionDelegate = self;
     self.shouldPauseInBackground = kDefaultShouldPauseInBackground;
+    self.playerControlQueue = dispatch_queue_create("com.dklinzh.DLCMobilePlayer.controlQueue", DISPATCH_QUEUE_CONCURRENT);
 }
 
 - (void)setupView {
@@ -235,20 +235,26 @@ IB_DESIGNABLE
         return;
     }
     self.playing = YES;
-    if (self.mediaPlayer.isPlaying) {
-        [self.mediaPlayer pause];
-    }
-    [self.mediaPlayer play];
+    dispatch_async(self.playerControlQueue, ^{
+        if (self.mediaPlayer.isPlaying) {
+            [self.mediaPlayer pause];
+        }
+        [self.mediaPlayer play];
+    });
 }
 
 - (void)pause {
     self.playing = NO;
-    [self.mediaPlayer pause];
+    dispatch_barrier_async(self.playerControlQueue, ^{
+        [self.mediaPlayer pause];
+    });
 }
 
 - (void)stop {
     self.playing = NO;
-    [self.mediaPlayer stop];
+    dispatch_barrier_async(self.playerControlQueue, ^{
+        [self.mediaPlayer stop];
+    });
     self.videoPlayed = NO;
 }
 
@@ -341,8 +347,7 @@ IB_DESIGNABLE
     if (mediaURL) {
         if (![mediaURL isEqualToString:_mediaURL]) {
             _mediaURL = mediaURL;
-            
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            dispatch_async(self.playerControlQueue, ^{
                 self.mediaPlayer.media = [VLCMedia mediaWithURL:[NSURL URLWithString:mediaURL]];
             });
             
@@ -352,7 +357,9 @@ IB_DESIGNABLE
             
             if (self.shouldAutoPlay && self.window) {
                 if ([self.videoActionDelegate respondsToSelector:@selector(dlc_videoWillPlay)]) {
-                    [self.videoActionDelegate dlc_videoWillPlay];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self.videoActionDelegate dlc_videoWillPlay];
+                    });
                 }
             }
         }
