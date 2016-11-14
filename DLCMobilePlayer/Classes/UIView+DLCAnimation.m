@@ -27,4 +27,32 @@ static NSString *const kRotateAnimationKey = @"kRotateAnimationKey";
 - (void)dlc_stopRotateAnimation {
     [self.layer removeAnimationForKey:kRotateAnimationKey];
 }
+
+- (void)dlc_fadeInAnimationWithDuration:(NSTimeInterval)duration {
+    [UIView animateWithDuration:duration animations:^{
+        self.alpha = 1.0;
+    } completion:nil];
+}
+
+- (void)dlc_fadeOutAnimationWithDuration:(NSTimeInterval)duration {
+    [UIView animateWithDuration:duration animations:^{
+        self.alpha = 0.0;
+    } completion:nil];
+}
+
+- (void)dlc_slideOutFromBottomWithDuration:(NSTimeInterval)duration {
+    [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        CGRect frame = self.frame;
+        frame.origin.y += frame.size.height;
+        self.frame = frame;
+    } completion:nil];
+}
+
+- (void)dlc_slideIntoBottomWithDuration:(NSTimeInterval)duration {
+    [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        CGRect frame = self.frame;
+        frame.origin.y -= frame.size.height;
+        self.frame = frame;
+    } completion:nil];
+}
 @end

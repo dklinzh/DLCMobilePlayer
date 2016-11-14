@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DLCMobilePlayer'
-  s.version          = '0.2.5'
+  s.version          = '0.3.0'
   s.summary          = 'A framework of video player for iOS devices that based on VLCKit.'
 
 # This description is used to generate tags and improve search results.
@@ -29,7 +29,7 @@ Pod::Spec.new do |s|
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '7.0'
-  s.private_header_files = 'DLCMobilePlayer/Classes/Aspects/**/*'
+  s.private_header_files = 'DLCMobilePlayer/Classes/Aspects/**/*', 'DLCMobilePlayer/Classes/MSWeakTimer/**/*'
   s.source_files = 'DLCMobilePlayer/Classes/**/*'
   s.resources = 'DLCMobilePlayer/Assets/**/*'
   s.resource_bundles = { 'DLCMobilePlayer' => ['DLCMobilePlayer/Assets/**/*'] }

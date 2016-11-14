@@ -11,11 +11,13 @@
 #import "UIView+DLCAnimation.h"
 #import "UIDevice+DLCOrientation.h"
 #import "Aspects.h"
+#import "MSWeakTimer.h"
 
 static NSString *const kContentViewNibName = @"DLCBaseVideoContentView";
-static BOOL const kDefaultShouldPauseInBackground = YES;
+static NSTimeInterval const kDefaultHiddenDuration = 0.6;
+static NSTimeInterval const kDefaultHiddenInterval = 5;
 
-@interface DLCBaseVideoView () <VLCMediaPlayerDelegate>
+@interface DLCBaseVideoView () <VLCMediaPlayerDelegate, UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *playBarButton;
 @property (weak, nonatomic) IBOutlet UIButton *voiceBarButton;
 
@@ -29,7 +31,9 @@ static BOOL const kDefaultShouldPauseInBackground = YES;
 @property (nonatomic, weak) id<DLCVideoActionDelegate> videoActionDelegate;
 @property (nonatomic, assign) BOOL shouldResumeInActive;
 @property (nonatomic, assign) BOOL videoPlayed;
+@property (nonatomic, assign) BOOL toobarHidden;
 @property (nonatomic, strong) dispatch_queue_t playerControlQueue;
+@property (nonatomic, strong) MSWeakTimer *toolbarHiddenTimer;
 @end
 
 IB_DESIGNABLE
@@ -90,6 +94,7 @@ IB_DESIGNABLE
             [self.videoActionDelegate dlc_videoWillPlay];
         }
     }
+    [self resetToolBarHiddenTimer];
 }
 
 - (void)dealloc {
@@ -120,6 +125,15 @@ IB_DESIGNABLE
     if ([self.videoActionDelegate respondsToSelector:@selector(dlc_videoFullScreenChanged:)]) {
         [self.videoActionDelegate dlc_videoFullScreenChanged:!self.isFullScreen];
     }
+}
+
+#pragma mark - UIGestureRecognizerDelegate
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
+        [self resetToolBarHiddenTimer];
+        [self showToolBarView];
+    }
+    return YES;
 }
 
 #pragma mark - DLCVideoActionDelegate
@@ -179,19 +193,77 @@ IB_DESIGNABLE
     [self setupView];
     
     self.videoActionDelegate = self;
-    self.shouldPauseInBackground = kDefaultShouldPauseInBackground;
     self.playerControlQueue = dispatch_queue_create("com.dklinzh.DLCMobilePlayer.controlQueue", DISPATCH_QUEUE_CONCURRENT);
+    self.hiddenAnimation = -1;
+    self.shouldPauseInBackground = YES;
+    self.shouldControlAutoHidden = YES;
+    [self initGesture];
 }
 
 - (void)setupView {
     NSBundle *bundle = [NSBundle bundleForClass:[DLCBaseVideoView class]];
     self.contentView = [bundle loadNibNamed:kContentViewNibName owner:self options:nil].firstObject;
     self.contentView.frame = self.bounds;
+    self.contentView.clipsToBounds = YES;
     [self addSubview:self.contentView];
-    
-    //    [self.videoToolbar setBackgroundImage:[UIImage imageNamed:@"bg_toolbar"] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
-    //    self.videoToolbar.clipsToBounds = YES;
-    //    self.toolbarView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_toolbar"]];
+}
+
+- (void)initGesture {
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] init];
+    singleTap.delegate = self;
+    singleTap.numberOfTapsRequired = 1;
+    singleTap.numberOfTouchesRequired = 1;
+    [self.contentView addGestureRecognizer:singleTap];
+//    self.contentView.userInteractionEnabled = YES;
+}
+
+- (void)hideToolBarView {
+    if (!self.toobarHidden) {
+        self.toobarHidden = YES;
+        switch (self.hiddenAnimation) {
+            case DLCHiddenAnimationFade:
+                [self.toolbarView dlc_fadeOutAnimationWithDuration:self.hiddenDuration];
+                break;
+            case DLCHiddenAnimationSlide:
+                [self.toolbarView dlc_slideOutFromBottomWithDuration:self.hiddenDuration];
+                break;
+            case DLCHiddenAnimationFadeSlide:
+                [self.toolbarView dlc_fadeOutAnimationWithDuration:self.hiddenDuration/2.0];
+                [self.toolbarView dlc_slideOutFromBottomWithDuration:self.hiddenDuration];
+                break;
+            default:
+                self.toolbarView.hidden = YES;
+                break;
+        }
+    }
+}
+
+- (void)showToolBarView {
+    if (self.toobarHidden) {
+        self.toobarHidden = NO;
+        switch (self.hiddenAnimation) {
+            case DLCHiddenAnimationFade:
+                [self.toolbarView dlc_fadeInAnimationWithDuration:self.hiddenDuration];
+                break;
+            case DLCHiddenAnimationSlide:
+                [self.toolbarView dlc_slideIntoBottomWithDuration:self.hiddenDuration];
+                break;
+            case DLCHiddenAnimationFadeSlide:
+                [self.toolbarView dlc_slideIntoBottomWithDuration:self.hiddenDuration/2.0];
+                [self.toolbarView dlc_fadeInAnimationWithDuration:self.hiddenDuration];
+                break;
+            default:
+                self.toolbarView.hidden = NO;
+                break;
+        }
+    }
+}
+
+- (void)resetToolBarHiddenTimer {
+    if (self.shouldControlAutoHidden) {
+        [self.toolbarHiddenTimer invalidate];
+        self.toolbarHiddenTimer = [MSWeakTimer scheduledTimerWithTimeInterval:self.hiddenInterval target:self selector:@selector(hideToolBarView) userInfo:nil repeats:NO dispatchQueue:dispatch_get_main_queue()];
+    }
 }
 
 - (void)addObserverForPauseInBackground {
@@ -260,7 +332,6 @@ IB_DESIGNABLE
 
 - (void)enterFullScreen {
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
-//    UIInterfaceOrientationMask defaultOrientationMask = [[UIApplication sharedApplication] supportedInterfaceOrientationsForWindow:window];
     Class delegateClass = [[UIApplication sharedApplication].delegate class];
     self.aspectToken = [delegateClass aspect_hookSelector:@selector(application:supportedInterfaceOrientationsForWindow:) withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo, UIApplication *application, UIWindow *window) {
         NSInvocation *invocation = aspectInfo.originalInvocation;
@@ -268,7 +339,7 @@ IB_DESIGNABLE
         UIInterfaceOrientationMask orientationMask = UIInterfaceOrientationMaskLandscape;
         [invocation setReturnValue:&orientationMask];
     } error:nil];
-    
+//    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     [UIDevice dlc_setOrientation:UIInterfaceOrientationLandscapeRight];
     [self.contentView removeFromSuperview];
     self.contentView.frame = window.bounds;
@@ -464,6 +535,27 @@ IB_DESIGNABLE
             [self.toolbarView addConstraints:Hconstraints];
         }
     }
+}
+
+- (NSTimeInterval)hiddenDuration {
+    if (_hiddenDuration > 0) {
+        return _hiddenDuration;
+    }
+    return kDefaultHiddenDuration;
+}
+
+- (NSTimeInterval)hiddenInterval {
+    if (_hiddenInterval > 0) {
+        return _hiddenInterval;
+    }
+    return kDefaultHiddenInterval;
+}
+
+- (DLCHiddenAnimation)hiddenAnimation {
+    if (_hiddenAnimation >= 0) {
+        return _hiddenAnimation;
+    }
+    return DLCHiddenAnimationFadeSlide;
 }
 
 #pragma mark - IBInspectable

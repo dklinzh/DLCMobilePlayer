@@ -584,7 +584,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 092D8B3A0C5152FA16CBEDFB /* Pods-DLCMobilePlayer_Tests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -610,7 +609,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 883A5E0FF7691C959D7E2C53 /* Pods-DLCMobilePlayer_Tests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",

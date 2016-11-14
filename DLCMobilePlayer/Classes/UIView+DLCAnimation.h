@@ -13,4 +13,12 @@
 - (void)dlc_startRotateAnimationInDuration:(double)duration repeatCout:(float)count;
 
 - (void)dlc_stopRotateAnimation;
+
+- (void)dlc_fadeInAnimationWithDuration:(NSTimeInterval)duration;
+
+- (void)dlc_fadeOutAnimationWithDuration:(NSTimeInterval)duration;
+
+- (void)dlc_slideOutFromBottomWithDuration:(NSTimeInterval)duration;
+
+- (void)dlc_slideIntoBottomWithDuration:(NSTimeInterval)duration;
 @end
