@@ -31,8 +31,8 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '7.0'
   s.private_header_files = 'DLCMobilePlayer/Classes/Aspects/**/*', 'DLCMobilePlayer/Classes/MSWeakTimer/**/*'
   s.source_files = 'DLCMobilePlayer/Classes/**/*'
-  s.resources = 'DLCMobilePlayer/Assets/**/*'
-  s.resource_bundles = { 'DLCMobilePlayer' => ['DLCMobilePlayer/Assets/**/*'] }
+  s.resources = 'DLCMobilePlayer/Assets/**/*.{xib,xcassets}'
+#s.resource_bundles = { 'DLCMobilePlayer' => ['DLCMobilePlayer/Assets/**/*'] }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'QuartzCore', 'CoreText', 'AVFoundation', 'Security', 'CFNetwork', 'AudioToolbox', 'OpenGLES', 'CoreGraphics', 'VideoToolbox', 'CoreMedia'

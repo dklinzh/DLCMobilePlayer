@@ -38,7 +38,7 @@
     NSString *key = [NSString stringWithFormat:@"%ld", (NSInteger)([[NSDate date] timeIntervalSince1970]*1000)];
     
     self.snapshotImageView.image = [self.videoView takeVideoSnapshotImageForKey:key];
-    NSLog(@"video snapshot path: %@", [self.videoView videoSnapshotPathForKey:key]);
+    NSLog(@"video snapshot path: %@", [DLCSubVideoView videoSnapshotPathForKey:key]);
 }
 
 - (IBAction)nextMediaAction:(UIButton *)sender {
