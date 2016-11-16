@@ -12,13 +12,19 @@
 
 - (UIImage *)takeVideoSnapshotImage;
 
-- (UIImage *)takeVideoSnapshotImageForKey:(NSString *)key;
-
 - (NSString *)takeVideoSnapshotPath;
+
+- (NSString *)takeVideoSnapshotUrl;
+
+- (UIImage *)takeVideoSnapshotImageForKey:(NSString *)key;
 
 - (NSString *)takeVideoSnapshotPathForKey:(NSString *)key;
 
-- (UIImage *)videoSnapshotImageForKey:(NSString *)key;
+- (NSString *)takeVideoSnapshotUrlForKey:(NSString *)key;
 
-- (NSString *)videoSnapshotPathForKey:(NSString *)key;
++ (UIImage *)videoSnapshotImageForKey:(NSString *)key;
+
++ (NSString *)videoSnapshotPathForKey:(NSString *)key;
+
++ (NSString *)videoSnapshotUrlForKey:(NSString *)key;
 @end

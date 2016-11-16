@@ -16,48 +16,72 @@
 @implementation DLCBaseVideoView (Snapshot)
 #pragma mark - Public
 - (UIImage *)takeVideoSnapshotImage {
-    return [self takeVideoSnapshotImageForKey:[self defaultKey]];
+    return [self takeVideoSnapshotImageForKey:[DLCBaseVideoView defaultKey]];
 }
 
 - (UIImage *)takeVideoSnapshotImageForKey:(NSString *)key {
-    NSString *filePath = [self takeVideoSnapshotPathForKey:key];
-    if (!filePath) {
+    NSString *path = [self takeVideoSnapshotPathForKey:key];
+    if (!path) {
         return nil;
     }
-    UIImage *image = [UIImage imageWithContentsOfFile:filePath];
-    return image;
+    
+    return [UIImage imageWithContentsOfFile:path];
 }
 
 - (NSString *)takeVideoSnapshotPath {
-    return [self takeVideoSnapshotPathForKey:[self defaultKey]];
+    return [self takeVideoSnapshotPathForKey:[DLCBaseVideoView defaultKey]];
 }
 
 - (NSString *)takeVideoSnapshotPathForKey:(NSString *)key {
-    if (!self.isVideoPlayed) {
+    if (!self.isVideoPlayed || !key) {
         return nil;
     }
     NSError *error = nil;
-    NSString *directoryPath = [self defaultDirectory];
+    NSString *directoryPath = [DLCBaseVideoView defaultDirectory];
     [[NSFileManager defaultManager] createDirectoryAtPath:directoryPath withIntermediateDirectories:YES attributes:nil error:&error];
     if (error) {
         return nil;
     }
+    
     NSString *filePath = [directoryPath stringByAppendingPathComponent:key];
     VLCMediaPlayer *mediaPlayer = [self valueForKey:@"mediaPlayer"];
-    [mediaPlayer saveVideoSnapshotAt:filePath withWidth:0 andHeight:0];
+    @try {
+        [mediaPlayer saveVideoSnapshotAt:filePath withWidth:0 andHeight:0];
+    } @catch (NSException *e) {
+        NSLog(@"DLCMobilePlayer -error: %@", e);
+        return nil;
+    }
+    NSLog(@"DLCMobilePlayer -snapshot: %@", filePath);
     return filePath;
 }
 
-- (UIImage *)videoSnapshotImageForKey:(NSString *)key {
-    NSString *path = [self videoSnapshotImageForKey:key];
+- (NSString *)takeVideoSnapshotUrlForKey:(NSString *)key {
+    NSString *path = [self takeVideoSnapshotPathForKey:key];
     if (!path) {
         return nil;
     }
-    UIImage *image = [UIImage imageWithContentsOfFile:path];
-    return image;
+    
+    return [[NSURL fileURLWithPath:path] absoluteString];
 }
 
-- (NSString *)videoSnapshotPathForKey:(NSString *)key {
+- (NSString *)takeVideoSnapshotUrl {
+    return [self takeVideoSnapshotUrlForKey:[DLCBaseVideoView defaultKey]];
+}
+
++ (UIImage *)videoSnapshotImageForKey:(NSString *)key {
+    NSString *path = [self videoSnapshotPathForKey:key];
+    if (!path) {
+        return nil;
+    }
+    
+    return [UIImage imageWithContentsOfFile:path];
+}
+
++ (NSString *)videoSnapshotPathForKey:(NSString *)key {
+    if (!key) {
+        return nil;
+    }
+    
     NSString *path = [[self defaultDirectory] stringByAppendingPathComponent:key];
     if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         return path;
@@ -65,12 +89,21 @@
     return nil;
 }
 
++ (NSString *)videoSnapshotUrlForKey:(NSString *)key {
+    NSString *path = [self videoSnapshotPathForKey:key];
+    if (!path) {
+        return nil;
+    }
+    
+    return [[NSURL fileURLWithPath:path] absoluteString];
+}
+
 #pragma mark - Private
-- (NSString *)defaultKey {
++ (NSString *)defaultKey {
     return [NSString stringWithFormat:@"%ld", (NSInteger)([[NSDate date] timeIntervalSince1970] * 1000)];
 }
 
-- (NSString *)defaultDirectory {
++ (NSString *)defaultDirectory {
     return [NSTemporaryDirectory() stringByAppendingPathComponent:@"dlc_snapshot"];
 }
 @end

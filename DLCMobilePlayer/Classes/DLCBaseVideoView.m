@@ -31,7 +31,7 @@ static NSTimeInterval const kDefaultHiddenInterval = 5;
 @property (nonatomic, weak) id<DLCVideoActionDelegate> videoActionDelegate;
 @property (nonatomic, assign) BOOL shouldResumeInActive;
 @property (nonatomic, assign) BOOL videoPlayed;
-@property (nonatomic, assign) BOOL toobarHidden;
+@property (nonatomic, assign, getter=isToolBarHidden) BOOL toolBarHidden;
 @property (nonatomic, strong) dispatch_queue_t playerControlQueue;
 @property (nonatomic, strong) MSWeakTimer *toolbarHiddenTimer;
 @end
@@ -89,7 +89,7 @@ IB_DESIGNABLE
 
 - (void)didMoveToWindow {
     [super didMoveToWindow];
-    if (self.shouldAutoPlay) {
+    if (self.shouldAutoPlay && self.mediaURL) {
         if ([self.videoActionDelegate respondsToSelector:@selector(dlc_videoWillPlay)]) {
             [self.videoActionDelegate dlc_videoWillPlay];
         }
@@ -151,7 +151,7 @@ IB_DESIGNABLE
 
 #pragma mark - VLCMediaPlayerDelegate
 - (void)mediaPlayerStateChanged:(NSNotification *)aNotification {
-    NSLog(@"mediaPlayerStateChanged: %ld", (long)self.mediaPlayer.state);
+    NSLog(@"DLCMobilePlayer -mediaPlayerStateChanged: %ld", (long)self.mediaPlayer.state);
  
     switch (self.mediaPlayer.state) {
         case VLCMediaPlayerStateError:
@@ -218,8 +218,8 @@ IB_DESIGNABLE
 }
 
 - (void)hideToolBarView {
-    if (!self.toobarHidden) {
-        self.toobarHidden = YES;
+    if (!self.isToolBarHidden) {
+        self.toolBarHidden = YES;
         switch (self.hiddenAnimation) {
             case DLCHiddenAnimationFade:
                 [self.toolbarView dlc_fadeOutAnimationWithDuration:self.hiddenDuration];
@@ -239,8 +239,8 @@ IB_DESIGNABLE
 }
 
 - (void)showToolBarView {
-    if (self.toobarHidden) {
-        self.toobarHidden = NO;
+    if (self.isToolBarHidden) {
+        self.toolBarHidden = NO;
         switch (self.hiddenAnimation) {
             case DLCHiddenAnimationFade:
                 [self.toolbarView dlc_fadeInAnimationWithDuration:self.hiddenDuration];
@@ -303,7 +303,7 @@ IB_DESIGNABLE
 
 - (void)play {
     if (!self.mediaURL) {
-        NSLog(@"DLCMobilePlayer -Error: mediaURL is null.");
+        NSLog(@"DLCMobilePlayer -warn: mediaURL is null.");
         return;
     }
     self.playing = YES;
@@ -326,8 +326,8 @@ IB_DESIGNABLE
     self.playing = NO;
     dispatch_barrier_async(self.playerControlQueue, ^{
         [self.mediaPlayer stop];
+        self.videoPlayed = NO;
     });
-    self.videoPlayed = NO;
 }
 
 - (void)enterFullScreen {

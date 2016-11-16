@@ -17,6 +17,10 @@ IB_DESIGNABLE
 
 #pragma mark - Public
 - (void)playLiveVideo {
+    if (!self.mediaURL) {
+        NSLog(@"DLCMobilePlayer -warn: mediaURL is null.");
+        return;
+    }
     [[DLCNetworkCenter sharedInstance] startReachNotifierOnReachable:^(DLCNetworkStatus status) {
         [self hideHintNetworkError];
     } onUnreachable:^(DLCNetworkStatus status) {
