@@ -183,12 +183,18 @@ IB_DESIGNABLE
         case VLCMediaPlayerStateBuffering:
             self.buffering = YES;
             break;
+        case VLCMediaPlayerStatePlaying:
+            break;
         default:
             break;
     }
 }
 
 - (void)mediaPlayerTimeChanged:(NSNotification *)aNotification {
+    if (self.mediaPlayer.audio.isMuted != self.isMuted) {
+        self.mediaPlayer.audio.muted = self.isMuted;
+    }
+    
     self.buffering = NO;
     self.videoPlayed = YES;
 }
