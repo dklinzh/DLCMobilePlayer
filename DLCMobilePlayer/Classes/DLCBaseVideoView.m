@@ -25,15 +25,19 @@ static NSTimeInterval const kDefaultHiddenInterval = 5;
 @property (weak, nonatomic) IBOutlet UIView *videoDrawableView;
 @property (weak, nonatomic) IBOutlet UIImageView *videoBufferingView;
 
+@property (nonatomic, strong) UIViewController *superViewController;
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) VLCMediaPlayer *mediaPlayer;
-@property (nonatomic, weak) id<AspectToken> aspectToken;
+@property (nonatomic, weak) id<AspectToken> orientationAspectToken;
+@property (nonatomic, weak) id<AspectToken> viewAppearAspectToken;
+@property (nonatomic, weak) id<AspectToken> viewDisappearAspectToken;
 @property (nonatomic, weak) id<DLCVideoActionDelegate> videoActionDelegate;
 @property (nonatomic, assign) BOOL shouldResumeInActive;
 @property (nonatomic, assign) BOOL videoPlayed;
 @property (nonatomic, assign, getter=isToolBarHidden) BOOL toolBarHidden;
 @property (nonatomic, strong) dispatch_queue_t playerControlQueue;
 @property (nonatomic, strong) MSWeakTimer *toolbarHiddenTimer;
+
 @end
 
 IB_DESIGNABLE
@@ -89,16 +93,17 @@ IB_DESIGNABLE
 
 - (void)didMoveToWindow {
     [super didMoveToWindow];
-    if (self.shouldAutoPlay && self.mediaURL) {
-        if ([self.videoActionDelegate respondsToSelector:@selector(dlc_videoWillPlay)]) {
-            [self.videoActionDelegate dlc_videoWillPlay];
+    if (self.window) {
+        if (!self.isVideoPlayed && self.shouldAutoPlay && self.mediaURL) {
+            if ([self.videoActionDelegate respondsToSelector:@selector(dlc_videoWillPlay)]) {
+                [self.videoActionDelegate dlc_videoWillPlay];
+            }
         }
+        [self resetToolBarHiddenTimer];
     }
-    [self resetToolBarHiddenTimer];
 }
 
 - (void)dealloc {
-//    [self stopVideo];
     self.shouldPauseInBackground = NO;
 }
 
@@ -150,6 +155,18 @@ IB_DESIGNABLE
 }
 
 #pragma mark - VLCMediaPlayerDelegate
+
+/**
+ VLCMediaPlayerStateStopped,        //<0 Player has stopped
+ VLCMediaPlayerStateOpening,        //<1 Stream is opening
+ VLCMediaPlayerStateBuffering,      //<2 Stream is buffering
+ VLCMediaPlayerStateEnded,          //<3 Stream has ended
+ VLCMediaPlayerStateError,          //<4 Player has generated an error
+ VLCMediaPlayerStatePlaying,        //<5 Stream is playing
+ VLCMediaPlayerStatePaused          //<6 Stream is paused
+
+ @param aNotification <#aNotification description#>
+ */
 - (void)mediaPlayerStateChanged:(NSNotification *)aNotification {
     NSLog(@"DLCMobilePlayer -mediaPlayerStateChanged: %ld", (long)self.mediaPlayer.state);
  
@@ -270,10 +287,20 @@ IB_DESIGNABLE
     if (self.shouldPauseInBackground) {
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(resumeInActive)
-                                                     name:UIApplicationDidBecomeActiveNotification object:nil];
+                                                     name:UIApplicationWillEnterForegroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(pauseInBackground)
                                                      name:UIApplicationDidEnterBackgroundNotification object:nil];
+        
+        __weak __typeof(self)weakSelf = self;
+        self.viewAppearAspectToken = [self.superViewController aspect_hookSelector:@selector(viewWillAppear:) withOptions:AspectPositionAfter usingBlock:^(id<AspectInfo> aspectInfo) {
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            [strongSelf resumeInActive];
+        } error:nil];
+        self.viewDisappearAspectToken = [self.superViewController aspect_hookSelector:@selector(viewDidDisappear:) withOptions:AspectPositionAfter usingBlock:^(id<AspectInfo> aspectInfo) {
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            [strongSelf pauseInBackground];
+        } error:nil];
     }
 }
 
@@ -281,9 +308,12 @@ IB_DESIGNABLE
     self.shouldResumeInActive = NO;
     if (self.shouldPauseInBackground) {
         [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                        name:UIApplicationDidBecomeActiveNotification object:nil];
+                                                        name:UIApplicationWillEnterForegroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] removeObserver:self
                                                         name:UIApplicationDidEnterBackgroundNotification object:nil];
+        
+        [self.viewAppearAspectToken remove];
+        [self.viewDisappearAspectToken remove];
     }
 }
 
@@ -333,7 +363,7 @@ IB_DESIGNABLE
 - (void)enterFullScreen {
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     Class delegateClass = [[UIApplication sharedApplication].delegate class];
-    self.aspectToken = [delegateClass aspect_hookSelector:@selector(application:supportedInterfaceOrientationsForWindow:) withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo, UIApplication *application, UIWindow *window) {
+    self.orientationAspectToken = [delegateClass aspect_hookSelector:@selector(application:supportedInterfaceOrientationsForWindow:) withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo, UIApplication *application, UIWindow *window) {
         NSInvocation *invocation = aspectInfo.originalInvocation;
         [invocation invoke];
         UIInterfaceOrientationMask orientationMask = UIInterfaceOrientationMaskLandscape;
@@ -347,7 +377,7 @@ IB_DESIGNABLE
 }
 
 - (void)exitFullScreen {
-    [self.aspectToken remove];
+    [self.orientationAspectToken remove];
     
     [UIDevice dlc_setOrientation:UIInterfaceOrientationPortrait];
     [self.contentView removeFromSuperview];
@@ -414,6 +444,7 @@ IB_DESIGNABLE
     return _mediaPlayer;
 }
 
+// Autoplay if necessary while mediaURL was changed.
 - (void)setMediaURL:(NSString *)mediaURL {
     if (mediaURL) {
         if (![mediaURL isEqualToString:_mediaURL]) {
@@ -507,9 +538,12 @@ IB_DESIGNABLE
         _shouldPauseInBackground = shouldPauseInBackground;
         if (!_shouldPauseInBackground) {
             [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                            name:UIApplicationDidBecomeActiveNotification object:nil];
+                                                            name:UIApplicationWillEnterForegroundNotification object:nil];
             [[NSNotificationCenter defaultCenter] removeObserver:self
                                                             name:UIApplicationDidEnterBackgroundNotification object:nil];
+            
+            [self.viewAppearAspectToken remove];
+            [self.viewDisappearAspectToken remove];
         }
     }
 }
@@ -556,6 +590,19 @@ IB_DESIGNABLE
         return _hiddenAnimation;
     }
     return DLCHiddenAnimationFadeSlide;
+}
+
+- (UIViewController *)superViewController {
+    if (_superViewController) {
+        return _superViewController;
+    }
+    UIResponder *responder = self;
+    while ((responder = [responder nextResponder])) {
+        if ([responder isKindOfClass:[UIViewController class]]) {
+            return _superViewController = (UIViewController *)responder;
+        }
+    }
+    return nil;
 }
 
 #pragma mark - IBInspectable

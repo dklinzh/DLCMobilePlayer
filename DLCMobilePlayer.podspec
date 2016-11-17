@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DLCMobilePlayer'
-  s.version          = '0.3.1'
+  s.version          = '0.3.2'
   s.summary          = 'A framework of video player for iOS devices that based on VLCKit.'
 
 # This description is used to generate tags and improve search results.
