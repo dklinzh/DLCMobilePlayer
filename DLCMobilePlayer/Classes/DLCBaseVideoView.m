@@ -25,8 +25,8 @@ static NSTimeInterval const kDefaultHiddenInterval = 5;
 @property (weak, nonatomic) IBOutlet UIView *videoDrawableView;
 @property (weak, nonatomic) IBOutlet UIImageView *videoBufferingView;
 
-@property (nonatomic, strong) UIViewController *superViewController;
-@property (nonatomic, strong) UIView *contentView;
+@property (nonatomic, weak) UIViewController *superViewController;
+@property (nonatomic, weak) UIView *contentView;
 @property (nonatomic, strong) VLCMediaPlayer *mediaPlayer;
 @property (nonatomic, weak) id<AspectToken> orientationAspectToken;
 @property (nonatomic, weak) id<AspectToken> viewAppearAspectToken;
@@ -105,6 +105,13 @@ IB_DESIGNABLE
 
 - (void)dealloc {
     self.shouldPauseInBackground = NO;
+    
+    if (self.isFullScreen) {
+        [self exitFullScreen];
+    }
+    
+    [_mediaPlayer stop];
+    _mediaPlayer = nil;
 }
 
 #pragma mark - Event

@@ -21,10 +21,13 @@ IB_DESIGNABLE
         NSLog(@"DLCMobilePlayer -warn: mediaURL is null.");
         return;
     }
+    __weak __typeof(self)weakSelf = self;
     [[DLCNetworkCenter sharedInstance] startReachNotifierOnReachable:^(DLCNetworkStatus status) {
-        [self hideHintNetworkError];
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        [strongSelf hideHintNetworkError];
     } onUnreachable:^(DLCNetworkStatus status) {
-        [self showHintNetworkError];
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        [strongSelf showHintNetworkError];
     }];
     
     switch ([DLCNetworkCenter sharedInstance].currentNetworkStatus) {

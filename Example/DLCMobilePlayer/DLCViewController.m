@@ -23,7 +23,7 @@
 	// Do any additional setup after loading the view, typically from a nib.
     
     self.videoView.mediaURL = self.mediaURLs[0];
-    self.videoView.shouldAutoPlay = YES;
+//    self.videoView.shouldAutoPlay = YES;
 //    self.videoView.allowPlayingViaWWAN = YES;
 }
 
@@ -31,6 +31,10 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+    
 }
 
 #pragma mark - Event
