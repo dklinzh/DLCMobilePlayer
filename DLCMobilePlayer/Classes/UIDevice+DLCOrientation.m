@@ -14,6 +14,7 @@
         return;
     }
     if ([[self currentDevice] valueForKey:@"orientation"]) {
+        [[self currentDevice] setValue:@(UIInterfaceOrientationUnknown) forKey:@"orientation"];
         [[self currentDevice] setValue:@(orientation) forKey:@"orientation"];
     }
 }

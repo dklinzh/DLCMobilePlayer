@@ -60,7 +60,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PIY-AY-Nmq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="202.40000000000001" y="18.440779610194905"/>
+            <point key="canvasLocation" x="-519" y="707"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="wQg-tq-qST">
@@ -125,14 +125,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tc2-Qw-aMS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="912.79999999999995" y="18.440779610194905"/>
+            <point key="canvasLocation" x="214" y="707"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="JAM-t7-iAX">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Z00-1W-MqI" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Fd2-EO-nyb">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Fd2-EO-nyb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -148,7 +148,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="seK-aE-LnD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-532" y="18"/>
+            <point key="canvasLocation" x="-519" y="18"/>
         </scene>
     </scenes>
 </document>

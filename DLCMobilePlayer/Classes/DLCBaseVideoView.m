@@ -37,7 +37,7 @@ static NSTimeInterval const kDefaultHiddenInterval = 5;
 @property (nonatomic, assign, getter=isToolBarHidden) BOOL toolBarHidden;
 @property (nonatomic, strong) dispatch_queue_t playerControlQueue;
 @property (nonatomic, strong) MSWeakTimer *toolbarHiddenTimer;
-
+@property (nonatomic, assign) UIInterfaceOrientation originalOrientation;
 @end
 
 IB_DESIGNABLE
@@ -76,16 +76,14 @@ IB_DESIGNABLE
 */
 
 - (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
+    if (self = [super initWithFrame:frame]) {
         [self setup];
     }
     return self;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
-    self = [super initWithCoder:coder];
-    if (self) {
+    if (self = [super initWithCoder:coder]) {
         [self setup];
     }
     return self;
@@ -104,14 +102,18 @@ IB_DESIGNABLE
 }
 
 - (void)dealloc {
+    [_mediaPlayer stop];
+    _mediaPlayer = nil;
+    
+    [self.toolbarHiddenTimer invalidate];
     self.shouldPauseInBackground = NO;
     
     if (self.isFullScreen) {
         [self exitFullScreen];
     }
     
-    [_mediaPlayer stop];
-    _mediaPlayer = nil;
+    [self.contentView removeFromSuperview];
+    self.contentView = nil;
 }
 
 #pragma mark - Event
@@ -374,6 +376,8 @@ IB_DESIGNABLE
 }
 
 - (void)enterFullScreen {
+    self.originalOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     Class delegateClass = [[UIApplication sharedApplication].delegate class];
     self.orientationAspectToken = [delegateClass aspect_hookSelector:@selector(application:supportedInterfaceOrientationsForWindow:) withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo, UIApplication *application, UIWindow *window) {
@@ -383,20 +387,29 @@ IB_DESIGNABLE
         [invocation setReturnValue:&orientationMask];
     } error:nil];
 //    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
-    [UIDevice dlc_setOrientation:UIInterfaceOrientationLandscapeRight];
-    [self.contentView removeFromSuperview];
-    self.contentView.frame = window.bounds;
-    [window addSubview:self.contentView];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        if (self.originalOrientation != UIInterfaceOrientationLandscapeLeft && self.originalOrientation != UIInterfaceOrientationLandscapeRight) {
+            [UIDevice dlc_setOrientation:UIInterfaceOrientationLandscapeRight];
+        }
+        [self.contentView removeFromSuperview];
+        self.contentView.frame = window.bounds;
+        [window addSubview:self.contentView];
+    }];
 }
 
 - (void)exitFullScreen {
     [self.orientationAspectToken remove];
     
-    [UIDevice dlc_setOrientation:UIInterfaceOrientationPortrait];
-    [self.contentView removeFromSuperview];
-    self.contentView.frame = self.bounds;
-    [self addSubview:self.contentView];
-    [self sendSubviewToBack:self.contentView];
+    [UIView animateWithDuration:0.3 animations:^{
+        [UIDevice dlc_setOrientation:self.originalOrientation];
+        [self.contentView removeFromSuperview];
+        self.contentView.frame = self.bounds;
+        [self addSubview:self.contentView];
+        [self sendSubviewToBack:self.contentView];
+    } completion:^(BOOL finished) {
+        [self.contentView layoutIfNeeded];
+    }];
 }
 
 - (void)mutedOn {
@@ -472,7 +485,7 @@ IB_DESIGNABLE
             
             if (self.shouldAutoPlay && self.window) {
                 if ([self.videoActionDelegate respondsToSelector:@selector(dlc_videoWillPlay)]) {
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                         [self.videoActionDelegate dlc_videoWillPlay];
                     });
                 }

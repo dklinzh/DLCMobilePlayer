@@ -92,11 +92,6 @@ IB_DESIGNABLE
     self.hintLabel.hidden = YES;
 }
 
-- (void)showAlertWithNetworkUnreachable {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"当前网络不可用。" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-    [alertView show];
-}
-
 - (NSString *)hintText {
     if (_hintText) {
         return _hintText;
