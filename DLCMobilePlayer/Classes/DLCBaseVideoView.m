@@ -146,8 +146,9 @@ IB_DESIGNABLE
 #pragma mark - UIGestureRecognizerDelegate
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
-        [self resetToolBarHiddenTimer];
-        [self showToolBarView];
+        if ([self.videoActionDelegate respondsToSelector:@selector(dlc_playerControlActive:)]) {
+            [self.videoActionDelegate dlc_playerControlActive:YES];
+        }
     }
     return YES;
 }
@@ -163,6 +164,15 @@ IB_DESIGNABLE
 
 - (void)dlc_videoFullScreenChanged:(BOOL)isFullScreen {
     self.fullScreen = isFullScreen;
+}
+
+- (void)dlc_playerControlActive:(BOOL)isActive {
+    if (isActive) {
+        [self resetToolBarHiddenTimer];
+        [self showToolBarView];
+    } else {
+        [self hideToolBarView];
+    }
 }
 
 #pragma mark - VLCMediaPlayerDelegate
@@ -294,9 +304,9 @@ IB_DESIGNABLE
 }
 
 - (void)resetToolBarHiddenTimer {
-    if (self.shouldControlAutoHidden) {
+    if (self.shouldControlAutoHidden && [self.videoActionDelegate respondsToSelector:@selector(dlc_playerControlActive:)]) {
         [self.toolbarHiddenTimer invalidate];
-        self.toolbarHiddenTimer = [MSWeakTimer scheduledTimerWithTimeInterval:self.hiddenInterval target:self selector:@selector(hideToolBarView) userInfo:nil repeats:NO dispatchQueue:dispatch_get_main_queue()];
+        self.toolbarHiddenTimer = [MSWeakTimer scheduledTimerWithTimeInterval:self.hiddenInterval target:self.videoActionDelegate selector:@selector(dlc_playerControlActive:) userInfo:nil repeats:NO dispatchQueue:dispatch_get_main_queue()];
     }
 }
 

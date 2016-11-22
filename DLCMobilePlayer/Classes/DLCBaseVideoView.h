@@ -21,6 +21,7 @@ typedef NS_ENUM(NSInteger, DLCHiddenAnimation) {
 - (void)dlc_videoWillPlay;
 - (void)dlc_videoWillStop;
 - (void)dlc_videoFullScreenChanged:(BOOL)isFullScreen;
+- (void)dlc_playerControlActive:(BOOL)isActive;
 @end
 
 @interface DLCBaseVideoView : UIView <DLCVideoActionDelegate>
