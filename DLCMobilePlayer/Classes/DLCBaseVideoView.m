@@ -109,7 +109,8 @@ IB_DESIGNABLE
     self.shouldPauseInBackground = NO;
     
     if (self.isFullScreen) {
-        [self exitFullScreen];
+        [self.orientationAspectToken remove];
+        [UIDevice dlc_setOrientation:self.originalOrientation];
     }
     
     [self.contentView removeFromSuperview];
@@ -408,7 +409,7 @@ IB_DESIGNABLE
         [self addSubview:self.contentView];
         [self sendSubviewToBack:self.contentView];
     } completion:^(BOOL finished) {
-        [self.contentView layoutIfNeeded];
+        
     }];
 }
 
