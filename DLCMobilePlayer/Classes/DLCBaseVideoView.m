@@ -38,6 +38,7 @@ static NSTimeInterval const kDefaultHiddenInterval = 5;
 @property (nonatomic, strong) dispatch_queue_t playerControlQueue;
 @property (nonatomic, strong) MSWeakTimer *toolbarHiddenTimer;
 @property (nonatomic, assign) UIInterfaceOrientation originalOrientation;
+@property (nonatomic, assign) BOOL observerForPauseInBackgroundAdded;
 @end
 
 IB_DESIGNABLE
@@ -300,7 +301,9 @@ IB_DESIGNABLE
 }
 
 - (void)addObserverForPauseInBackground {
-    if (self.shouldPauseInBackground) {
+    if (self.shouldPauseInBackground && !self.observerForPauseInBackgroundAdded) {
+        self.observerForPauseInBackgroundAdded = YES;
+        
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(resumeInActive)
                                                      name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -322,7 +325,9 @@ IB_DESIGNABLE
 
 - (void)removeObserverForPauseInBackground {
     self.shouldResumeInActive = NO;
-    if (self.shouldPauseInBackground) {
+    if (self.shouldPauseInBackground && self.observerForPauseInBackgroundAdded) {
+        self.observerForPauseInBackgroundAdded = NO;
+        
         [[NSNotificationCenter defaultCenter] removeObserver:self
                                                         name:UIApplicationWillEnterForegroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] removeObserver:self
@@ -402,6 +407,10 @@ IB_DESIGNABLE
 - (void)exitFullScreen {
     [self.orientationAspectToken remove];
     
+    BOOL shouldResume = self.isPlaying;
+    if (self.isPlaying) {
+        [self pause];
+    }
     [UIView animateWithDuration:0.3 animations:^{
         [UIDevice dlc_setOrientation:self.originalOrientation];
         [self.contentView removeFromSuperview];
@@ -409,7 +418,9 @@ IB_DESIGNABLE
         [self addSubview:self.contentView];
         [self sendSubviewToBack:self.contentView];
     } completion:^(BOOL finished) {
-        
+        if (shouldResume) {
+            [self play];
+        }
     }];
 }
 
@@ -563,7 +574,9 @@ IB_DESIGNABLE
 - (void)setShouldPauseInBackground:(BOOL)shouldPauseInBackground {
     if (_shouldPauseInBackground != shouldPauseInBackground) {
         _shouldPauseInBackground = shouldPauseInBackground;
-        if (!_shouldPauseInBackground) {
+        if (!_shouldPauseInBackground && self.observerForPauseInBackgroundAdded) {
+            self.observerForPauseInBackgroundAdded = NO;
+            
             [[NSNotificationCenter defaultCenter] removeObserver:self
                                                             name:UIApplicationWillEnterForegroundNotification object:nil];
             [[NSNotificationCenter defaultCenter] removeObserver:self
