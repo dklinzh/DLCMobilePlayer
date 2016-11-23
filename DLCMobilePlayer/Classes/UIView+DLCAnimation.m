@@ -43,7 +43,7 @@ static NSString *const kRotateAnimationKey = @"kRotateAnimationKey";
 - (void)dlc_slideOutFromBottomWithDuration:(NSTimeInterval)duration {
     [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         CGRect frame = self.frame;
-        frame.origin.y += frame.size.height;
+        frame.origin.y = self.superview.bounds.size.height;
         self.frame = frame;
     } completion:nil];
 }
@@ -51,7 +51,7 @@ static NSString *const kRotateAnimationKey = @"kRotateAnimationKey";
 - (void)dlc_slideIntoBottomWithDuration:(NSTimeInterval)duration {
     [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
         CGRect frame = self.frame;
-        frame.origin.y -= frame.size.height;
+        frame.origin.y = self.superview.bounds.size.height - frame.size.height;
         self.frame = frame;
     } completion:nil];
 }

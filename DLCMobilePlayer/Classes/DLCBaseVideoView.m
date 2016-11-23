@@ -103,6 +103,8 @@ IB_DESIGNABLE
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+    
     [_mediaPlayer stop];
     _mediaPlayer = nil;
     
@@ -241,7 +243,10 @@ IB_DESIGNABLE
     self.hiddenAnimation = -1;
     self.shouldPauseInBackground = YES;
     self.shouldControlAutoHidden = YES;
+    
     [self initGesture];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationDidChange) name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 - (void)setupView {
@@ -259,6 +264,18 @@ IB_DESIGNABLE
     singleTap.numberOfTouchesRequired = 1;
     [self.contentView addGestureRecognizer:singleTap];
 //    self.contentView.userInteractionEnabled = YES;
+}
+
+- (void)orientationDidChange {
+    UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
+    if (orientation == UIDeviceOrientationFaceUp || orientation == UIDeviceOrientationFaceDown || orientation == UIDeviceOrientationUnknown) {
+        return;
+    }
+    
+    if (self.isToolBarHidden) {
+        self.toolBarHidden = NO;
+        [self hideToolBarView];
+    }
 }
 
 - (void)hideToolBarView {
@@ -437,7 +454,6 @@ IB_DESIGNABLE
         if (shouldResume) {
             [self play];
         }
-        [self.mediaPlayer.drawable layoutIfNeeded];
     }];
 }
 
@@ -494,6 +510,7 @@ IB_DESIGNABLE
         return _mediaPlayer;
     }
     _mediaPlayer = [[VLCMediaPlayer alloc] init];
+//    _mediaPlayer = [[VLCMediaPlayer alloc] initWithOptions:@[@"-vvvv"]];
     _mediaPlayer.delegate = self;
     _mediaPlayer.drawable = self.videoDrawableView;
     return _mediaPlayer;
@@ -506,6 +523,7 @@ IB_DESIGNABLE
             _mediaURL = mediaURL;
             dispatch_async(self.playerControlQueue, ^{
                 self.mediaPlayer.media = [VLCMedia mediaWithURL:[NSURL URLWithString:mediaURL]];
+//                [self.mediaPlayer.media addOptions:@{@"network-caching": @"500"}];
             });
             
             if ([self.videoActionDelegate respondsToSelector:@selector(dlc_videoWillStop)]) {

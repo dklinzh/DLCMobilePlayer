@@ -13,9 +13,22 @@
     if (orientation == [UIApplication sharedApplication].statusBarOrientation) {
         return;
     }
-    if ([[self currentDevice] valueForKey:@"orientation"]) {
-        [[self currentDevice] setValue:@(UIInterfaceOrientationUnknown) forKey:@"orientation"];
-        [[self currentDevice] setValue:@(orientation) forKey:@"orientation"];
+//    if ([[self currentDevice] valueForKey:@"orientation"]) {
+//        [[self currentDevice] setValue:@(UIInterfaceOrientationUnknown) forKey:@"orientation"];
+//        [[self currentDevice] setValue:@(orientation) forKey:@"orientation"];
+//    }
+    [self _setOrientation:UIInterfaceOrientationUnknown];
+    [self _setOrientation:orientation];
+}
+
++ (void)_setOrientation:(UIInterfaceOrientation)orientation {
+    if ([[self currentDevice] respondsToSelector:@selector(setOrientation:)]) {
+        SEL selector = NSSelectorFromString(@"setOrientation:");
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
+        [invocation setSelector:selector];
+        [invocation setTarget:[self currentDevice]];
+        [invocation setArgument:&orientation atIndex:2];
+        [invocation invoke];
     }
 }
 @end
