@@ -168,8 +168,8 @@ IB_DESIGNABLE
 
 - (void)dlc_playerControlActive:(BOOL)isActive {
     if (isActive) {
-        [self resetToolBarHiddenTimer];
         [self showToolBarView];
+        [self resetToolBarHiddenTimer];
     } else {
         [self hideToolBarView];
     }
@@ -304,9 +304,15 @@ IB_DESIGNABLE
 }
 
 - (void)resetToolBarHiddenTimer {
-    if (self.shouldControlAutoHidden && [self.videoActionDelegate respondsToSelector:@selector(dlc_playerControlActive:)]) {
+    if (self.shouldControlAutoHidden) {
         [self.toolbarHiddenTimer invalidate];
-        self.toolbarHiddenTimer = [MSWeakTimer scheduledTimerWithTimeInterval:self.hiddenInterval target:self.videoActionDelegate selector:@selector(dlc_playerControlActive:) userInfo:nil repeats:NO dispatchQueue:dispatch_get_main_queue()];
+        self.toolbarHiddenTimer = [MSWeakTimer scheduledTimerWithTimeInterval:self.hiddenInterval target:self.videoActionDelegate selector:@selector(playerControlResign) userInfo:nil repeats:NO dispatchQueue:dispatch_get_main_queue()];
+    }
+}
+
+- (void)playerControlResign {
+    if ([self.videoActionDelegate respondsToSelector:@selector(dlc_playerControlActive:)]) {
+        [self.videoActionDelegate dlc_playerControlActive:NO];
     }
 }
 
@@ -431,6 +437,7 @@ IB_DESIGNABLE
         if (shouldResume) {
             [self play];
         }
+        [self.mediaPlayer.drawable layoutIfNeeded];
     }];
 }
 
