@@ -54,21 +54,21 @@
                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EY8-Pr-DW8">
-                            <rect key="frame" x="18" y="11" width="16" height="22"/>
+                            <rect key="frame" x="18" y="0.0" width="16" height="44"/>
                             <state key="normal" image="btn_toolbar_play"/>
                             <connections>
                                 <action selector="videoPlayAction:" destination="-1" eventType="touchUpInside" id="qcY-g9-fv8"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t2m-dF-ndS">
-                            <rect key="frame" x="52" y="11" width="16" height="22"/>
+                            <rect key="frame" x="52" y="0.0" width="16" height="44"/>
                             <state key="normal" image="btn_toolbar_voice"/>
                             <connections>
                                 <action selector="videoVoiceAction:" destination="-1" eventType="touchUpInside" id="1Zv-cf-8m9"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FuZ-1E-Dgh">
-                            <rect key="frame" x="341" y="11" width="16" height="22"/>
+                            <rect key="frame" x="341" y="0.0" width="16" height="44"/>
                             <state key="normal" image="btn_toolbar_full_screen"/>
                             <connections>
                                 <action selector="videoFullScreenAction:" destination="-1" eventType="touchUpInside" id="pOl-lv-vUF"/>
@@ -77,17 +77,20 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="FuZ-1E-Dgh" firstAttribute="centerY" secondItem="erX-QE-C0q" secondAttribute="centerY" id="4mD-Wl-huY"/>
                         <constraint firstAttribute="trailing" secondItem="2CO-RI-u0J" secondAttribute="trailing" id="6D5-P8-gfX"/>
                         <constraint firstItem="EY8-Pr-DW8" firstAttribute="leading" secondItem="erX-QE-C0q" secondAttribute="leading" constant="18" id="C6g-Qp-CPa"/>
                         <constraint firstItem="2CO-RI-u0J" firstAttribute="leading" secondItem="erX-QE-C0q" secondAttribute="leading" id="ChJ-zD-hj3"/>
+                        <constraint firstItem="EY8-Pr-DW8" firstAttribute="top" secondItem="erX-QE-C0q" secondAttribute="top" id="Iw8-PR-rfg"/>
                         <constraint firstAttribute="bottom" secondItem="2CO-RI-u0J" secondAttribute="bottom" id="JYH-F8-Mbl"/>
                         <constraint firstAttribute="trailing" secondItem="FuZ-1E-Dgh" secondAttribute="trailing" constant="18" id="RU8-iE-cYL"/>
                         <constraint firstItem="2CO-RI-u0J" firstAttribute="top" secondItem="erX-QE-C0q" secondAttribute="top" id="V5U-l3-7XA"/>
-                        <constraint firstItem="EY8-Pr-DW8" firstAttribute="centerY" secondItem="erX-QE-C0q" secondAttribute="centerY" id="YIN-5F-M7W"/>
+                        <constraint firstItem="FuZ-1E-Dgh" firstAttribute="top" secondItem="erX-QE-C0q" secondAttribute="top" id="arx-Ia-yJk"/>
+                        <constraint firstAttribute="bottom" secondItem="t2m-dF-ndS" secondAttribute="bottom" id="bJ5-ML-1Tk"/>
+                        <constraint firstItem="t2m-dF-ndS" firstAttribute="top" secondItem="erX-QE-C0q" secondAttribute="top" id="cBA-dY-nfT"/>
                         <constraint firstItem="t2m-dF-ndS" firstAttribute="leading" secondItem="EY8-Pr-DW8" secondAttribute="trailing" constant="18" id="eSn-UH-6RS"/>
                         <constraint firstAttribute="height" constant="44" id="grB-bE-XW4"/>
-                        <constraint firstItem="t2m-dF-ndS" firstAttribute="centerY" secondItem="erX-QE-C0q" secondAttribute="centerY" id="zIe-nZ-c6Z"/>
+                        <constraint firstAttribute="bottom" secondItem="EY8-Pr-DW8" secondAttribute="bottom" id="pOa-xB-fY9"/>
+                        <constraint firstAttribute="bottom" secondItem="FuZ-1E-Dgh" secondAttribute="bottom" id="rhR-ZZ-iKX"/>
                     </constraints>
                 </view>
             </subviews>
