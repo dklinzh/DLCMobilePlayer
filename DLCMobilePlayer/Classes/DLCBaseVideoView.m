@@ -421,8 +421,8 @@ IB_DESIGNABLE
 - (void)stop {
     self.playing = NO;
     dispatch_barrier_async(self.playerControlQueue, ^{
-        [self.mediaPlayer stop];
         self.videoPlayed = NO;
+        [self.mediaPlayer stop];
     });
 }
 
@@ -647,7 +647,7 @@ IB_DESIGNABLE
         case VLCMediaPlayerStateError:
         case VLCMediaPlayerStateStopped:
         case VLCMediaPlayerStateEnded:
-            if ([self.videoActionDelegate respondsToSelector:@selector(dlc_videoWillStop)]) {
+            if ([self.videoActionDelegate respondsToSelector:@selector(dlc_videoWillStop)] && self.isVideoPlayed) {
                 [self.videoActionDelegate dlc_videoWillStop];
             }
         case VLCMediaPlayerStatePaused:
