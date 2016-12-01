@@ -7,8 +7,10 @@ language: objective-c
 # cache: cocoapods
 podfile: Example/Podfile
 before_install:
+- gem install xcpretty
 - gem install cocoapods # Since Travis is not always on latest version
-- pod install --project-directory=Example
+- pod install --project-directory=Example --verbose
 script:
-- set -o pipefail && xcodebuild test -workspace Example/DLCMobilePlayer.xcworkspace -scheme DLCMobilePlayer-Example -destination 'platform=iOS Simulator,name=iPhone 7 Plus,OS=10.1' | xcpretty
+- set -o pipefail 
+- xcodebuild test -workspace Example/DLCMobilePlayer.xcworkspace -scheme DLCMobilePlayer-Example -destination 'platform=iOS Simulator,name=iPhone 7 Plus,OS=10.1' | xcpretty
 - pod lib lint

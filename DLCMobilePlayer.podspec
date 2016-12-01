@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DLCMobilePlayer'
-  s.version          = '0.3.5'
+  s.version          = '0.3.6'
   s.summary          = 'A framework of video player for iOS devices that based on VLCKit.'
   s.description      = <<-DESC
                        A framework of video player for iOS devices that based on VLCKit(https://github.com/dklinzh/VLCKit). Supported protocols include http, rtsp, rtmp etc.
@@ -18,12 +18,12 @@ Pod::Spec.new do |s|
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Daniel' => 'linzhdk@gmail.com' }
-  s.source           = { :git => 'https://github.com/dklinzh/DLCMobilePlayer/blob/master/DLCMobilePlayer.zip', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/dklinzh/DLCMobilePlayer.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '7.0'
-  s.private_header_files = 'DLCMobilePlayer/Classes/Aspects/**/*', 'DLCMobilePlayer/Classes/MSWeakTimer/**/*'
-  s.source_files = 'DLCMobilePlayer/Classes/**/*'
+  s.private_header_files = 'DLCMobilePlayer/Classes/Aspects/**/*.h', 'DLCMobilePlayer/Classes/MSWeakTimer/**/*.h'
+  s.source_files = 'DLCMobilePlayer/Classes/**/*.{h,m}'
   s.resources = 'DLCMobilePlayer/Assets/**/*.{xib,xcassets}'
 
 #s.resource_bundles = { 'DLCMobilePlayer' => ['DLCMobilePlayer/Assets/**/*'] }
