@@ -13,6 +13,8 @@
 #import "Aspects.h"
 #import "MSWeakTimer.h"
 
+NSString *const kDLCNotificationVideoDidPlay = @"kDLCNotificationVideoDidPlay";
+
 static NSString *const kContentViewNibName = @"DLCBaseVideoContentView";
 static NSTimeInterval const kDefaultHiddenDuration = 0.6;
 static NSTimeInterval const kDefaultHiddenInterval = 5;
@@ -647,7 +649,7 @@ IB_DESIGNABLE
         case VLCMediaPlayerStateError:
         case VLCMediaPlayerStateStopped:
         case VLCMediaPlayerStateEnded:
-            if ([self.videoActionDelegate respondsToSelector:@selector(dlc_videoWillStop)] && self.isVideoPlayed) {
+            if ([self.videoActionDelegate respondsToSelector:@selector(dlc_videoWillStop)] && (self.isVideoPlayed || self.isBuffering)) {
                 [self.videoActionDelegate dlc_videoWillStop];
             }
         case VLCMediaPlayerStatePaused:
@@ -669,7 +671,11 @@ IB_DESIGNABLE
     }
     
     self.buffering = NO;
-    self.videoPlayed = YES;
+    if (!self.videoPlayed) {
+        self.videoPlayed = YES;
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDLCNotificationVideoDidPlay object:self];
+    }
 }
 
 - (void)mediaPlayerTitleChanged:(NSNotification *)aNotification {

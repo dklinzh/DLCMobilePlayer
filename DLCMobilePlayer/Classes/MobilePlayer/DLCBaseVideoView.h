@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+// Notification will be posted when the video has been playing.
+extern NSString *const kDLCNotificationVideoDidPlay;
 
 /**
  Animation styles for the hidden transition of player tool bar.
@@ -23,7 +25,6 @@ typedef NS_ENUM(NSInteger, DLCHiddenAnimation) {
     DLCHiddenAnimationSlide = 1 << 1,
     DLCHiddenAnimationFadeSlide = DLCHiddenAnimationFade | DLCHiddenAnimationSlide,
 };
-
 
 /**
  The delegate of video player control action.
@@ -57,6 +58,9 @@ typedef NS_ENUM(NSInteger, DLCHiddenAnimation) {
 - (void)dlc_playerControlActive:(BOOL)isActive;
 @end
 
+/**
+ Base video player view
+ */
 @interface DLCBaseVideoView : UIView <DLCVideoActionDelegate>
 
 /**

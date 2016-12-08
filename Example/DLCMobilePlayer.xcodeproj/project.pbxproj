@@ -65,6 +65,7 @@
 		A283B7AB4011A40BB332DB57 /* Pods_DLCMobilePlayer_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DLCMobilePlayer_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5880D372C68CC2ABDE2846C /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		C290E2A01DC6427400488289 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		C29783761DF8F85200A2FF75 /* DLCMobilePlayer-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "DLCMobilePlayer-Prefix.pch"; path = "../DLCMobilePlayer/Classes/DLCMobilePlayer-Prefix.pch"; sourceTree = "<group>"; };
 		C2C813621DC870FD00FB31D3 /* DLCSubVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLCSubVideoView.h; sourceTree = "<group>"; };
 		C2C813631DC870FD00FB31D3 /* DLCSubVideoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLCSubVideoView.m; sourceTree = "<group>"; };
 		E4E5D21317761325BC1E7530 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -179,6 +180,7 @@
 		60FF7A9C1954A5C5007DD14C /* Podspec Metadata */ = {
 			isa = PBXGroup;
 			children = (
+				C29783761DF8F85200A2FF75 /* DLCMobilePlayer-Prefix.pch */,
 				061F62D99D9E910EC8AE2026 /* DLCMobilePlayer.podspec */,
 				A5880D372C68CC2ABDE2846C /* README.md */,
 				E4E5D21317761325BC1E7530 /* LICENSE */,
