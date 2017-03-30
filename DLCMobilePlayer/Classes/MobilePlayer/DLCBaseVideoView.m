@@ -20,12 +20,7 @@ static NSTimeInterval const kDefaultHiddenDuration = 0.6;
 static NSTimeInterval const kDefaultHiddenInterval = 5;
 
 @interface DLCBaseVideoView () <VLCMediaPlayerDelegate, UIGestureRecognizerDelegate>
-@property (weak, nonatomic) IBOutlet UIButton *playBarButton;
-@property (weak, nonatomic) IBOutlet UIButton *voiceBarButton;
-
-@property (weak, nonatomic) IBOutlet UIButton *fullScreenBarButton;
 @property (weak, nonatomic) IBOutlet UIView *videoDrawableView;
-@property (weak, nonatomic) IBOutlet UIImageView *videoBufferingView;
 
 @property (nonatomic, weak) UIViewController *superViewController;
 @property (nonatomic, weak) UIView *contentView;
@@ -602,10 +597,11 @@ IB_DESIGNABLE
 // Autoplay if necessary while mediaURL was changed.
 - (void)setMediaURL:(NSString *)mediaURL {
     if (mediaURL) {
+        mediaURL = [mediaURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         if (![mediaURL isEqualToString:_mediaURL]) {
             _mediaURL = mediaURL;
             dispatch_async(self.playerControlQueue, ^{
-                self.mediaPlayer.media = [VLCMedia mediaWithURL:[NSURL URLWithString:mediaURL]];
+                self.mediaPlayer.media = [VLCMedia mediaWithURL:[NSURL URLWithString:_mediaURL]];
                 //                [self.mediaPlayer.media addOptions:@{@"network-caching": @"500"}];
             });
             

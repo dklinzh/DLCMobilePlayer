@@ -30,17 +30,20 @@ static DLCNetworkCenter *sharedInstance = nil;
 - (instancetype)init {
     if (self = [super init]) {
         self.reach = [Reachability reachabilityForInternetConnection];
+        __weak __typeof(self)weakSelf = self;
         self.reach.reachableBlock = ^(Reachability *reach) {
-            if (self.reachableBlock) {
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            if (strongSelf.reachableBlock) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    self.reachableBlock([reach currentReachabilityStatus]);
+                    strongSelf.reachableBlock((DLCNetworkStatus)[reach currentReachabilityStatus]);
                 });
             }
         };
         self.reach.unreachableBlock = ^(Reachability *reach) {
-            if (self.unreachableBlock) {
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            if (strongSelf.unreachableBlock) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    self.unreachableBlock([reach currentReachabilityStatus]);
+                    strongSelf.unreachableBlock((DLCNetworkStatus)[reach currentReachabilityStatus]);
                 });
             }
         };
@@ -77,6 +80,6 @@ static DLCNetworkCenter *sharedInstance = nil;
 
 #pragma mark - Private
 - (DLCNetworkStatus)currentNetworkStatus {
-    return [self.reach currentReachabilityStatus];
+    return (DLCNetworkStatus)[self.reach currentReachabilityStatus];
 }
 @end

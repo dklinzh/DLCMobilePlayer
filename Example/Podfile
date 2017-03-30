@@ -1,7 +1,7 @@
 use_frameworks!
 
 target 'DLCMobilePlayer_Example' do
-   pod 'DLCMobilePlayer', :path => '../'
+    pod 'DLCMobilePlayer', :path => '../'
 #    pod 'DLCMobilePlayer', :git => 'https://github.com/dklinzh/DLCMobilePlayer.git'
 
   target 'DLCMobilePlayer_Tests' do

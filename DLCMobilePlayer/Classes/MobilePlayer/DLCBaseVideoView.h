@@ -63,20 +63,25 @@ typedef NS_ENUM(NSInteger, DLCHiddenAnimation) {
  */
 @interface DLCBaseVideoView : UIView <DLCVideoActionDelegate>
 
+@property (weak, nonatomic) IBOutlet UIButton *playBarButton;
+@property (weak, nonatomic) IBOutlet UIButton *voiceBarButton;
+@property (weak, nonatomic) IBOutlet UIButton *fullScreenBarButton;
+@property (weak, nonatomic) IBOutlet UIImageView *videoBufferingView;
+
 /**
  The main play button in the center of player screen.
  */
-@property (weak, nonatomic, readonly) IBOutlet UIButton *videoPlayButton;
+@property (weak, nonatomic) IBOutlet UIButton *videoPlayButton;
 
 /**
  The tool bar for the player control.
  */
-@property (weak, nonatomic, readonly) IBOutlet UIView *toolbarView;
+@property (weak, nonatomic) IBOutlet UIView *toolbarView;
 
 /**
  The label for the hint of player status.
  */
-@property (weak, nonatomic, readonly) IBOutlet UILabel *hintLabel;
+@property (weak, nonatomic) IBOutlet UILabel *hintLabel;
 
 /**
  Indicate whether the player is playing.
@@ -119,17 +124,17 @@ typedef NS_ENUM(NSInteger, DLCHiddenAnimation) {
 @property (nonatomic, strong) IBInspectable NSString *hintText;
 
 /**
- Determine whether the player should be played automactically when it is available and displayed, or media resource changed.
+ Determine whether the player should be played automactically when it is available and displayed, or media resource changed. Defaults to FALSE.
  */
 @property (nonatomic, assign) IBInspectable BOOL shouldAutoPlay;
 
 /**
- Determine whether the player should be paused when the app enter background or its super view controller disappears.
+ Determine whether the player should be paused when the app enter background or its super view controller disappears. Defaults to TRUE.
  */
 @property (nonatomic, assign) IBInspectable BOOL shouldPauseInBackground;
 
 /**
- Determine the layer of player control should be hidden automactically after a specified time interval.
+ Determine the layer of player control should be hidden automactically after a specified time interval. Defaults to TRUE.
  */
 @property (nonatomic, assign) IBInspectable BOOL shouldControlAutoHidden;
 
@@ -168,4 +173,5 @@ typedef NS_ENUM(NSInteger, DLCHiddenAnimation) {
  */
 - (void)stopVideo;
 
+- (void)setFullScreen:(BOOL)fullScreen;
 @end

@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DLCMobilePlayer'
-  s.version          = '0.3.7'
+  s.version          = '0.3.8'
   s.summary          = 'A framework of video player for iOS devices that based on VLCKit.'
   s.description      = <<-DESC
                        A framework of video player for iOS devices that based on VLCKit(https://github.com/dklinzh/VLCKit). Supported protocols include http, rtsp, rtmp etc.
@@ -32,7 +32,8 @@ Pod::Spec.new do |s|
   s.frameworks = 'QuartzCore', 'CoreText', 'AVFoundation', 'Security', 'CFNetwork', 'AudioToolbox', 'OpenGLES', 'CoreGraphics', 'VideoToolbox', 'CoreMedia'
   s.libraries = 'c++', 'xml2', 'z', 'bz2', 'iconv'
   s.vendored_frameworks = "DLCMobilePlayer/Libs/*.framework"
-  s.xcconfig = { "ENABLE_BITCODE" => "NO" }
+  s.xcconfig = { 'ENABLE_BITCODE' => 'NO',
+                 'GCC_PREPROCESSOR_DEFINITIONS' => 'DLCMobilePlayer=1' }
   s.prefix_header_file = 'DLCMobilePlayer/Classes/DLCMobilePlayer-Prefix.pch'
   s.dependency 'Reachability'
 end
