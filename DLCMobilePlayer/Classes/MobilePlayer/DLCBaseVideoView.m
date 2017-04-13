@@ -157,7 +157,7 @@ IB_DESIGNABLE
 }
 
 - (void)dlc_playerControlActive:(BOOL)isActive {
-    if (self.controlActive = isActive) {
+    if ((self.controlActive = isActive)) {
         [self showToolBarView];
         [self resetToolBarHiddenTimer];
     } else {

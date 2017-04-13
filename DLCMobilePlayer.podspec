@@ -33,7 +33,8 @@ Pod::Spec.new do |s|
   s.libraries = 'c++', 'xml2', 'z', 'bz2', 'iconv'
   s.vendored_frameworks = "DLCMobilePlayer/Libs/*.framework"
   s.xcconfig = { 'ENABLE_BITCODE' => 'NO',
-                 'GCC_PREPROCESSOR_DEFINITIONS' => 'DLCMobilePlayer=1' }
+                 'GCC_PREPROCESSOR_DEFINITIONS' => 'DLCMobilePlayer=1',
+                 'OTHER_SWIFT_FLAGS' => '-D DLCMobilePlayer' }
   s.prefix_header_file = 'DLCMobilePlayer/Classes/DLCMobilePlayer-Prefix.pch'
   s.dependency 'Reachability'
 end
