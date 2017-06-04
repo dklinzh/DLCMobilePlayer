@@ -19,7 +19,7 @@ extern NSString *const kDLCNotificationVideoDidPlay;
  - DLCHiddenAnimationSlide: Hiding view with the sliding animation.
  - DLCHiddenAnimationFadeSlide: Hiding view with the combination of both faded animation and sliding animation.
  */
-typedef NS_ENUM(NSInteger, DLCHiddenAnimation) {
+typedef NS_OPTIONS(NSInteger, DLCHiddenAnimation) {
     DLCHiddenAnimationNone = 0,
     DLCHiddenAnimationFade = 1,
     DLCHiddenAnimationSlide = 1 << 1,
@@ -116,12 +116,12 @@ typedef NS_ENUM(NSInteger, DLCHiddenAnimation) {
 /**
  Get/Set the local or remote url string of the media resource.
  */
-@property (nonatomic, strong) NSString *mediaURL;
+@property (nonatomic, copy) NSString *mediaURL;
 
 /**
  Get/Set the text of hint lable for player status.
  */
-@property (nonatomic, strong) IBInspectable NSString *hintText;
+@property (nonatomic, copy) IBInspectable NSString *hintText;
 
 /**
  Determine whether the player should be played automactically when it is available and displayed, or media resource changed. Defaults to FALSE.
@@ -156,7 +156,7 @@ typedef NS_ENUM(NSInteger, DLCHiddenAnimation) {
 /**
  Get/Set the other additional buttons on the player tool bar.
  */
-@property (nonatomic, strong) NSArray<UIButton *> *otherToolBarButtons;
+@property (nonatomic, copy) NSArray<UIButton *> *otherToolBarButtons;
 
 /**
  Play the video.
