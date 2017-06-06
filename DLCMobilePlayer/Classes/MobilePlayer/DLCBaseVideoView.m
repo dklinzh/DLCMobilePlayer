@@ -200,8 +200,8 @@ IB_DESIGNABLE
 
 #pragma mark - ToolBar
 - (void)setOtherToolBarButtons:(NSArray<UIButton *> *)otherToolBarButtons {
-    _otherToolBarButtons = otherToolBarButtons;
-    if (_otherToolBarButtons) {
+    if (otherToolBarButtons) {
+        _otherToolBarButtons = [otherToolBarButtons copy];
         NSUInteger count = _otherToolBarButtons.count;
         if (count > 0) {
             int margin = 18;
@@ -218,6 +218,13 @@ IB_DESIGNABLE
             }
             NSArray *Hconstraints = [NSLayoutConstraint constraintsWithVisualFormat:Hvfl options:NSLayoutFormatAlignAllCenterY metrics:metrics views:views];
             [self.toolbarView addConstraints:Hconstraints];
+        }
+    } else {
+        if (_otherToolBarButtons) {
+            for (UIButton *btn in _otherToolBarButtons) {
+                [btn removeFromSuperview];
+            }
+            _otherToolBarButtons = nil;
         }
     }
 }
@@ -599,7 +606,7 @@ IB_DESIGNABLE
     if (mediaURL) {
         mediaURL = [mediaURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         if (![mediaURL isEqualToString:_mediaURL]) {
-            _mediaURL = mediaURL;
+            _mediaURL = [mediaURL copy];
             dispatch_async(self.playerControlQueue, ^{
                 self.mediaPlayer.media = [VLCMedia mediaWithURL:[NSURL URLWithString:_mediaURL]];
                 //                [self.mediaPlayer.media addOptions:@{@"network-caching": @"500"}];
@@ -618,7 +625,7 @@ IB_DESIGNABLE
             }
         }
     } else {
-        _mediaURL = mediaURL;
+        _mediaURL = [mediaURL copy];
         if ([self.videoActionDelegate respondsToSelector:@selector(dlc_videoWillStop)]) {
             [self.videoActionDelegate dlc_videoWillStop];
         }
